@@ -30,6 +30,15 @@ class AndroidDevice(BaseDevice):
     @property
     def uuid(self):
         return self.uri
+
+    @property
+    def adb(self):
+        try:
+            return self.proxy.adb
+        except AttributeError:
+            kw = _check_platform_android(self.uri)
+            self.proxy = AndroidProxy(**kw)
+            return self.proxy.adb
     
     # StatusComponent
     def is_keyboard_shown(self, *args, **kwargs):
@@ -56,4 +65,18 @@ class AndroidDevice(BaseDevice):
         else:
             raise RuntimeError("No such component to perform unlock function")
     # StatusComponent
+
+    def get_top_activity_name(self, *args, **kwargs):
+        if "getter" in self.ComponentList:
+            return self.ComponentList["getter"].get_top_activity_name(*args, **kwargs)
+        else:
+            raise RuntimeError("No such component to perform get_top_activity_name function")
+
+    def get_top_activity_name_and_pid(self, *args, **kwargs):
+        if "getter" in self.ComponentList:
+            return self.ComponentList["getter"].get_top_activity_name_and_pid(*args, **kwargs)
+        else:
+            raise RuntimeError("No such component to perform get_top_activity_name_and_pid function")
+
+            
 

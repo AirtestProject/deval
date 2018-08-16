@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import time
+import re
 from deval.utils.cv import string_2_img, rotate, imwrite
 from deval.component import *
 from deval.core.android.androidfuncs import AndroidProxy, _check_platform_android, TOUCH_METHOD, IME_METHOD, CAP_METHOD
@@ -207,6 +208,30 @@ class AndroidGetterComponent(GetterComponent):
 
     def get_ip_address(self):
         return self.proxy.adb.get_ip_address()
+
+    def get_top_activity_name_and_pid(self):
+        dat = self.proxy.adb.shell('dumpsys activity top')
+        activityRE = re.compile('\s*ACTIVITY ([A-Za-z0-9_.]+)/([A-Za-z0-9_.]+) \w+ pid=(\d+)')
+        m = activityRE.search(dat)
+        if m:
+            return (m.group(1), m.group(2), m.group(3))
+        else:
+            return None
+
+    def get_top_activity_name(self):
+        """
+        Get the top activity name
+
+        Returns:
+            package, activity and pid
+
+        """
+        tanp = self.get_top_activity_name_and_pid()
+        if tanp:
+            return tanp[0] + '/' + tanp[1]
+        else:
+            return None
+        
 
 
 class AndroidStatueComponent(Component):
