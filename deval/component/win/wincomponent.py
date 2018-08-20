@@ -89,6 +89,27 @@ class WinInputComponent(InputComponent):
         coords = get_action_pos(self.window, pos)
         mouse.double_click(coords=coords)
 
+    def scroll(self, pos, **kwargs):
+        set_foreground_window(self.window)
+
+        duration = kwargs.get("duration", 2)
+        steps = kwargs.get("steps", -1)
+
+        pos = list(pos)
+        pos[0] = pos[0] + self.monitor["left"]
+        pos[1] = pos[1] + self.monitor["top"]
+        pos = tuple(pos)
+        coords = get_action_pos(self.window, pos)
+        interval = float(duration) / (abs(steps) + 1)
+        if steps < 0:
+            for i in range(0, abs(steps)):
+                time.sleep(interval)
+                mouse.scroll(coords=coords, wheel_dist=-1)
+        else:
+            for i in range(0, abs(steps)):
+                time.sleep(interval)
+                mouse.scroll(coords=coords, wheel_dist=1)
+    
 
 class WinKeyEventComponent(KeyEventComponent):
     def __init__(self, uri, dev=None):

@@ -17,6 +17,13 @@ class AndroidDevice(BaseDevice):
         kw = _check_platform_android(uri)
         self.proxy = AndroidProxy(**kw)
 
+        self.addMethodInComponent("is_keyboard_shown", "status")
+        self.addMethodInComponent("is_screenon", "status")
+        self.addMethodInComponent("is_locked", "status")
+        self.addMethodInComponent("unlock", "status")
+        self.addMethodInComponent("get_top_activity_name", "getter")
+        self.addMethodInComponent("get_top_activity_name_and_pid", "getter")
+
         self.addComponent(AndroidAppComponent(uri, self))
         self.addComponent(AndroidGetterComponent(uri, self))
         self.addComponent(AndroidInputComponent(uri, self))
@@ -39,44 +46,3 @@ class AndroidDevice(BaseDevice):
             kw = _check_platform_android(self.uri)
             self.proxy = AndroidProxy(**kw)
             return self.proxy.adb
-    
-    # StatusComponent
-    def is_keyboard_shown(self, *args, **kwargs):
-        if "status" in self.ComponentList:
-            return self.ComponentList["status"].is_keyboard_shown(*args, **kwargs)
-        else:
-            raise RuntimeError("No such component to perform is_keyboard_shown function")
-
-    def is_screenon(self, *args, **kwargs):
-        if "status" in self.ComponentList:
-            return self.ComponentList["status"].is_screenon(*args, **kwargs)
-        else:
-            raise RuntimeError("No such component to perform is_screenon function")
-
-    def is_locked(self, *args, **kwargs):
-        if "status" in self.ComponentList:
-            return self.ComponentList["status"].is_locked(*args, **kwargs)
-        else:
-            raise RuntimeError("No such component to perform is_locked function")
-
-    def unlock(self, *args, **kwargs):
-        if "status" in self.ComponentList:
-            return self.ComponentList["status"].unlock(*args, **kwargs)
-        else:
-            raise RuntimeError("No such component to perform unlock function")
-    # StatusComponent
-
-    def get_top_activity_name(self, *args, **kwargs):
-        if "getter" in self.ComponentList:
-            return self.ComponentList["getter"].get_top_activity_name(*args, **kwargs)
-        else:
-            raise RuntimeError("No such component to perform get_top_activity_name function")
-
-    def get_top_activity_name_and_pid(self, *args, **kwargs):
-        if "getter" in self.ComponentList:
-            return self.ComponentList["getter"].get_top_activity_name_and_pid(*args, **kwargs)
-        else:
-            raise RuntimeError("No such component to perform get_top_activity_name_and_pid function")
-
-            
-
