@@ -10,7 +10,10 @@ class Component(object):
 
 class InputComponent(Component):
     def __init__(self, uri, dev=None, name="input"):
-        super(InputComponent, self).__init__(uri, dev, name)
+        if name is None:
+            super(InputComponent, self).__init__(uri, dev, "input")
+        else:
+            super(InputComponent, self).__init__(uri, dev, name)
     
     def click(self, *args, **kwargs):
         raise NotImplementedError
@@ -27,7 +30,10 @@ class InputComponent(Component):
 
 class KeyEventComponent(Component):
     def __init__(self, uri, dev=None, name="keyevent"):
-        super(KeyEventComponent, self).__init__(uri, dev, name)
+        if name is None:
+            super(KeyEventComponent, self).__init__(uri, dev, "keyevent")
+        else:
+            super(KeyEventComponent, self).__init__(uri, dev, name)
     
     def keyevent(self, *args, **kwargs):
         raise NotImplementedError
@@ -44,7 +50,10 @@ class KeyEventComponent(Component):
 
 class RuntimeComponent(Component):
     def __init__(self, uri, dev=None, name="runtime"):
-        super(RuntimeComponent, self).__init__(uri, dev, name)
+        if name is None:
+            super(RuntimeComponent, self).__init__(uri, dev, "runtime")
+        else:
+            super(RuntimeComponent, self).__init__(uri, dev, name)
     
     def shell(self, *args, **kwargs):
         raise NotImplementedError
@@ -52,10 +61,16 @@ class RuntimeComponent(Component):
     def kill(self, *args, **kwargs):
         raise NotImplementedError
 
+    def get_title(self, *args, **kwargs):
+        raise NotImplementedError
+
 
 class AppComponent(Component):
     def __init__(self, uri, dev=None, name="app"):
-        super(AppComponent, self).__init__(uri, dev, name)
+        if name is None:
+            super(AppComponent, self).__init__(uri, dev, "app")
+        else:
+            super(AppComponent, self).__init__(uri, dev, name)
     
     def start_app(self, *args, **kwargs):
         raise NotImplementedError
@@ -96,7 +111,10 @@ class AppComponent(Component):
 
 class ScreenComponent(Component):
     def __init__(self, uri, dev=None, name="screen"):
-        super(ScreenComponent, self).__init__(uri, dev, name)
+        if name is None:
+            super(ScreenComponent, self).__init__(uri, dev, "screen")
+        else:
+            super(ScreenComponent, self).__init__(uri, dev, name)
     
     def snapshot(self, *args, **kwargs):
         raise NotImplementedError
@@ -105,12 +123,12 @@ class ScreenComponent(Component):
         raise NotImplementedError
 
 
-class GetterComponent(Component):
-    def __init__(self, uri, dev=None, name="getter"):
-        super(GetterComponent, self).__init__(uri, dev, name)
+class NetworkComponent(Component):
+    def __init__(self, uri, dev=None, name="network"):
+        if name is None:
+            super(NetworkComponent, self).__init__(uri, dev, "network")
+        else:
+            super(NetworkComponent, self).__init__(uri, dev, name)
     
     def get_ip_address(self, *args, **kwargs):
-        raise NotImplementedError
-
-    def get_title(self, *args, **kwargs):
         raise NotImplementedError

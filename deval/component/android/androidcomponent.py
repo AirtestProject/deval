@@ -3,15 +3,17 @@
 import time
 import re
 from deval.utils.cv import string_2_img, rotate, imwrite
-from deval.component import *
+from deval.component.component import InputComponent, KeyEventComponent, RuntimeComponent
+from deval.component.component import AppComponent, ScreenComponent, NetworkComponent, Component
 from deval.core.android.androidfuncs import AndroidProxy, _check_platform_android, TOUCH_METHOD, IME_METHOD, CAP_METHOD
 from deval.utils.parse import parse_uri
 
 
 class AndroidInputComponent(InputComponent):   
 
-    def __init__(self, uri, dev):
-        super(AndroidInputComponent, self).__init__(uri, dev)
+    def __init__(self, uri, dev, name=None):
+        super(AndroidInputComponent, self).__init__(uri, dev, name)
+
         try:
             self.proxy = self.dev.proxy
         except AttributeError:
@@ -66,8 +68,9 @@ class AndroidInputComponent(InputComponent):
 
 class AndroidKeyEventComponent(KeyEventComponent):
     
-    def __init__(self, uri, dev):
-        super(AndroidKeyEventComponent, self).__init__(uri, dev)
+    def __init__(self, uri, dev, name=None):
+        super(AndroidKeyEventComponent, self).__init__(uri, dev, name)
+
         try:
             self.proxy = self.dev.proxy
         except AttributeError:
@@ -77,7 +80,7 @@ class AndroidKeyEventComponent(KeyEventComponent):
     def keyevent(self, keyname, **kwargs):
         return self.proxy.adb.keyevent(keyname)
 
-    def text(self, text, enter=True):
+    def text(self, text, enter=True, **kwargs):
         if self.proxy.ime_method == IME_METHOD.YOSEMITEIME:
             self.proxy.yosemite_ime.text(text)
         else:
@@ -87,20 +90,21 @@ class AndroidKeyEventComponent(KeyEventComponent):
         if enter:
             self.proxy.adb.shell(["input", "keyevent", "ENTER"])
 
-    def wake(self):
+    def wake(self, **kwargs):
         self.proxy.adb.keyevent("HOME")
         self.proxy.recorder.install_or_upgrade()  # 暂时Yosemite只用了ime
         self.proxy.adb.shell(['am', 'start', '-a', 'com.netease.nie.yosemite.ACTION_IDENTIFY'])
         self.proxy.adb.keyevent("HOME")
     
-    def home(self):
+    def home(self, **kwargs):
         self.proxy.adb.keyevent("HOME")
 
 
 class AndroidRuntimeComponent(RuntimeComponent):
     
-    def __init__(self, uri, dev):
-        super(AndroidRuntimeComponent, self).__init__(uri, dev)
+    def __init__(self, uri, dev, name=None):
+        super(AndroidRuntimeComponent, self).__init__(uri, dev, name)
+
         try:
             self.proxy = self.dev.proxy
         except AttributeError:
@@ -110,59 +114,84 @@ class AndroidRuntimeComponent(RuntimeComponent):
     def shell(self, *args, **kwargs):
         return self.proxy.adb.shell(*args, **kwargs)
 
+    def get_top_activity_name_and_pid(self, **kwargs):
+        dat = self.proxy.adb.shell('dumpsys activity top')
+        activityRE = re.compile('\s*ACTIVITY ([A-Za-z0-9_.]+)/([A-Za-z0-9_.]+) \w+ pid=(\d+)')
+        m = activityRE.search(dat)
+        if m:
+            return (m.group(1), m.group(2), m.group(3))
+        else:
+            return None
+
+    def get_top_activity_name(self, **kwargs):
+        """
+        Get the top activity name
+
+        Returns:
+            package, activity and pid
+
+        """
+        tanp = self.get_top_activity_name_and_pid()
+        if tanp:
+            return tanp[0] + '/' + tanp[1]
+        else:
+            return None
+
 
 class AndroidAppComponent(AppComponent):
     
-    def __init__(self, uri, dev):
-        super(AndroidAppComponent, self).__init__(uri, dev)
+    def __init__(self, uri, dev, name=None):
+        super(AndroidAppComponent, self).__init__(uri, dev, name)
+
         try:
             self.proxy = self.dev.proxy
         except AttributeError:
             self.dev.proxy = AndroidProxy(**_check_platform_android(uri))
             self.proxy = self.dev.proxy
 
-    def start_app(self, package, activity=None):
+    def start_app(self, package, activity=None, **kwargs):
         return self.proxy.adb.start_app(package, activity)
 
-    def start_app_timing(self, package, activity=None):
+    def start_app_timing(self, package, activity=None, **kwargs):
         return self.proxy.adb.start_app_timing(package, activity)
 
-    def stop_app(self, package):
+    def stop_app(self, package, **kwargs):
         return self.proxy.adb.stop_app(package)
 
-    def clear_app(self, package):
+    def clear_app(self, package, **kwargs):
         return self.proxy.adb.clear_app(package)
 
-    def install_app(self, filepath, replace=False):
+    def install_app(self, filepath, replace=False, **kwargs):
         return self.proxy.adb.install_app(filepath, replace=replace)
 
-    def install_multiple_app(self, filepath, replace=False):
+    def install_multiple_app(self, filepath, replace=False, **kwargs):
         return self.proxy.adb.install_multiple_app(filepath, replace=replace)
 
-    def uninstall_app(self, package):
+    def uninstall_app(self, package, **kwargs):
         return self.proxy.adb.uninstall_app(package)
 
-    def list_app(self, third_only=False):
+    def list_app(self, third_only=False, **kwargs):
         return self.proxy.adb.list_app(third_only)
 
-    def path_app(self, package):
+    def path_app(self, package, **kwargs):
         return self.proxy.adb.path_app(package)
 
-    def check_app(self, package):
+    def check_app(self, package, **kwargs):
         return self.proxy.adb.check_app(package)
 
 
 class AndroidScreenComponent(ScreenComponent):
     
-    def __init__(self, uri, dev):
-        super(AndroidScreenComponent, self).__init__(uri, dev)
+    def __init__(self, uri, dev, name=None):
+        super(AndroidScreenComponent, self).__init__(uri, dev, name)
+
         try:
             self.proxy = self.dev.proxy
         except AttributeError:
             self.dev.proxy = AndroidProxy(**_check_platform_android(uri))
             self.proxy = self.dev.proxy
 
-    def snapshot(self, filename=None, ensure_orientation=True):
+    def snapshot(self, filename=None, ensure_orientation=True, **kwargs):
         if self.proxy.cap_method == CAP_METHOD.MINICAP_STREAM:
             self.proxy.rotation_watcher.get_ready()
             screen = self.proxy.minicap.get_frame_from_stream()
@@ -196,62 +225,40 @@ class AndroidScreenComponent(ScreenComponent):
         return screen
 
 
-class AndroidGetterComponent(GetterComponent):
+class AndroidNetworkComponent(NetworkComponent):
     
-    def __init__(self, uri, dev):
-        super(AndroidGetterComponent, self).__init__(uri, dev)
+    def __init__(self, uri, dev, name=None):
+        super(AndroidNetworkComponent, self).__init__(uri, dev, name)
+
         try:
             self.proxy = self.dev.proxy
         except AttributeError:
             self.dev.proxy = AndroidProxy(**_check_platform_android(uri))
             self.proxy = self.dev.proxy
 
-    def get_ip_address(self):
+    def get_ip_address(self, **kwargs):
         return self.proxy.adb.get_ip_address()
-
-    def get_top_activity_name_and_pid(self):
-        dat = self.proxy.adb.shell('dumpsys activity top')
-        activityRE = re.compile('\s*ACTIVITY ([A-Za-z0-9_.]+)/([A-Za-z0-9_.]+) \w+ pid=(\d+)')
-        m = activityRE.search(dat)
-        if m:
-            return (m.group(1), m.group(2), m.group(3))
-        else:
-            return None
-
-    def get_top_activity_name(self):
-        """
-        Get the top activity name
-
-        Returns:
-            package, activity and pid
-
-        """
-        tanp = self.get_top_activity_name_and_pid()
-        if tanp:
-            return tanp[0] + '/' + tanp[1]
-        else:
-            return None
-        
 
 
 class AndroidStatueComponent(Component):
     
-    def __init__(self, uri, dev):
-        super(AndroidStatueComponent, self).__init__(uri, dev, "status")
+    def __init__(self, uri, dev, name="statue"):
+        super(AndroidStatueComponent, self).__init__(uri, dev, name)
+
         try:
             self.proxy = self.dev.proxy
         except AttributeError:
             self.dev.proxy = AndroidProxy(**_check_platform_android(uri))
             self.proxy = self.dev.proxy
 
-    def is_keyboard_shown(self):
+    def is_keyboard_shown(self, **kwargs):
         return self.proxy.adb.is_keyboard_shown()
 
-    def is_screenon(self):
+    def is_screenon(self, **kwargs):
         return self.proxy.adb.is_screenon()
 
-    def is_locked(self):
+    def is_locked(self, **kwargs):
         return self.proxy.adb.is_locked()
 
-    def unlock(self):
+    def unlock(self, **kwargs):
         return self.proxy.adb.unlock()

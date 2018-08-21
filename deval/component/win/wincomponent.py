@@ -5,15 +5,17 @@ import subprocess
 import socket
 from mss import mss
 from pywinauto import mouse, keyboard
-from deval.component import *
-from deval.core.win.winfuncs import *
+from deval.component.component import InputComponent, KeyEventComponent, RuntimeComponent
+from deval.component.component import AppComponent, ScreenComponent, NetworkComponent, Component
+from deval.core.win.winfuncs import get_app, get_rect, get_window, set_foreground_window
+from deval.core.win.winfuncs import Application, screenshot, get_action_pos
 from deval.core.win.winfuncs import _check_platform_win
 from deval.utils.cv import crop_image, imwrite
 
 
 class WinInputComponent(InputComponent):
-    def __init__(self, uri, dev=None):
-        super(WinInputComponent, self).__init__(uri, dev)
+    def __init__(self, uri, dev, name=None):
+        super(WinInputComponent, self).__init__(uri, dev, name)
 
         try:
             self.app = self.dev.app
@@ -80,7 +82,7 @@ class WinInputComponent(InputComponent):
         time.sleep(interval)
         mouse.release(coords=(to_x, to_y))
 
-    def double_tap(self, pos):
+    def double_tap(self, pos, **kwargs):
         set_foreground_window(self.window)
         pos = list(pos)
         pos[0] = pos[0] + self.monitor["left"]
@@ -112,8 +114,8 @@ class WinInputComponent(InputComponent):
     
 
 class WinKeyEventComponent(KeyEventComponent):
-    def __init__(self, uri, dev=None):
-        super(WinKeyEventComponent, self).__init__(uri, dev)
+    def __init__(self, uri, dev, name=None):
+        super(WinKeyEventComponent, self).__init__(uri, dev, name)
    
     def keyevent(self, keyname, **kwargs):
         keyboard.SendKeys(keyname)
@@ -123,19 +125,28 @@ class WinKeyEventComponent(KeyEventComponent):
 
 
 class WinRuntimeComponent(RuntimeComponent):
-    def __init__(self, uri, dev=None):
-        super(WinRuntimeComponent, self).__init__(uri, dev)
+    def __init__(self, uri, dev, name=None):
+        super(WinRuntimeComponent, self).__init__(uri, dev, name)
+        try:
+            self.window = self.dev.window
+        except AttributeError:
+            self.dev.window = get_window(_check_platform_win(self.uri))
+            self.window = self.dev.window
    
-    def shell(self, cmd):
+    def shell(self, cmd, **kwargs):
         return subprocess.check_output(cmd, shell=True)
 
-    def kill(self, pid):
+    def kill(self, pid, **kwargs):
         Application().connect(process=pid).kill()
+
+    def get_title(self, **kwargs):
+        if self.window:
+            return self.window.texts()
 
 
 class WinAppComponent(AppComponent):
-    def __init__(self, uri, dev=None):
-        super(WinAppComponent, self).__init__(uri, dev)
+    def __init__(self, uri, dev, name=None):
+        super(WinAppComponent, self).__init__(uri, dev, name)
         try:
             self.app = self.dev.app
         except AttributeError:
@@ -145,15 +156,15 @@ class WinAppComponent(AppComponent):
     def start_app(self, path, **kwargs):
         return Application().start(path)
     
-    def stop_app(self):
+    def stop_app(self, **kwargs):
         if self.app:
             self.app.kill()
 
 
 class WinScreenComponent(ScreenComponent):
     
-    def __init__(self, uri, dev=None):
-        super(WinScreenComponent, self).__init__(uri, dev)
+    def __init__(self, uri, dev, name=None):
+        super(WinScreenComponent, self).__init__(uri, dev, name)
         try:
             self.app = self.dev.app
             self.window = self.dev.window
@@ -167,7 +178,7 @@ class WinScreenComponent(ScreenComponent):
         if h:
             self.handle = int(h)
     
-    def snapshot(self, filename="tmp.png"):
+    def snapshot(self, filename="tmp.png", **kwargs):
         if not filename:
             filename = "tmp.png"
         
@@ -191,20 +202,15 @@ class WinScreenComponent(ScreenComponent):
             self.window.MoveWindow(x=pos[0], y=pos[1])
 
 
-class WinGetterComponent(GetterComponent):
+class WinNetworkComponent(NetworkComponent):
     
-    def __init__(self, uri, dev=None):
-        super(WinGetterComponent, self).__init__(uri, dev)
+    def __init__(self, uri, dev, name=None):
+        super(WinNetworkComponent, self).__init__(uri, dev, name)
         try:
             self.window = self.dev.window
         except AttributeError:
             self.dev.window = get_window(_check_platform_win(self.uri))
             self.window = self.dev.window
 
-    def get_ip_address(self):
+    def get_ip_address(self, **kwargs):
         return socket.gethostbyname(socket.gethostname())
-
-    def get_title(self):
-        if self.window:
-            return self.window.texts()
-

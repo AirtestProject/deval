@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
 
-import re
-import warnings
-from functools import wraps
-from copy import copy
 from deval.device.device import BaseDevice
-from deval.component.android.androidcomponent import *
-from deval.core.android.androidfuncs import _check_platform_android
+from deval.component.android.androidcomponent import AndroidAppComponent, AndroidNetworkComponent, AndroidInputComponent
+from deval.component.android.androidcomponent import AndroidKeyEventComponent, AndroidRuntimeComponent, AndroidScreenComponent, AndroidStatueComponent
+from deval.core.android.androidfuncs import AndroidProxy, _check_platform_android
 
 
 class AndroidDevice(BaseDevice):
@@ -17,15 +14,8 @@ class AndroidDevice(BaseDevice):
         kw = _check_platform_android(uri)
         self.proxy = AndroidProxy(**kw)
 
-        self.addMethodInComponent("is_keyboard_shown", "status")
-        self.addMethodInComponent("is_screenon", "status")
-        self.addMethodInComponent("is_locked", "status")
-        self.addMethodInComponent("unlock", "status")
-        self.addMethodInComponent("get_top_activity_name", "getter")
-        self.addMethodInComponent("get_top_activity_name_and_pid", "getter")
-
         self.addComponent(AndroidAppComponent(uri, self))
-        self.addComponent(AndroidGetterComponent(uri, self))
+        self.addComponent(AndroidNetworkComponent(uri, self))
         self.addComponent(AndroidInputComponent(uri, self))
         self.addComponent(AndroidKeyEventComponent(uri, self))
         self.addComponent(AndroidRuntimeComponent(uri, self))

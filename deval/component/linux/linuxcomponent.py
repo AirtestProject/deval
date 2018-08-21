@@ -7,16 +7,16 @@ import pyautogui as inputs
 from pywinauto import keyboard
 from Xlib import display, X
 from PIL import Image
-from deval.component import *
-from deval.core.linux.linuxfuncs import *
+from deval.component.component import InputComponent, KeyEventComponent, RuntimeComponent
+from deval.component.component import AppComponent, ScreenComponent, NetworkComponent, Component
 from deval.core.linux.linuxfuncs import _check_platform_linux
 from deval.utils.cv import imwrite
 from deval.utils.cv import pil_2_cv2
 
 
 class LinuxInputComponent(InputComponent):
-    def __init__(self, uri, dev=None):
-        super(LinuxInputComponent, self).__init__(uri, dev)
+    def __init__(self, uri, dev, name=None):
+        super(LinuxInputComponent, self).__init__(uri, dev, name)
         
     def click(self, pos, **kwargs):
         right_click = kwargs.get("right_click", False)
@@ -30,13 +30,13 @@ class LinuxInputComponent(InputComponent):
         inputs.moveTo(from_x, from_y)
         inputs.dragTo(to_x, to_y, duration=duration)
 
-    def double_tap(self, pos):
+    def double_tap(self, pos, **kwargs):
         inputs.click(pos[0], pos[1], clicks=2, interval=0.05)
 
 
 class LinuxKeyEventComponent(KeyEventComponent):
-    def __init__(self, uri, dev=None):
-        super(LinuxKeyEventComponent, self).__init__(uri, dev)
+    def __init__(self, uri, dev, name=None):
+        super(LinuxKeyEventComponent, self).__init__(uri, dev, name)
    
     def keyevent(self, keyname, **kwargs):
         keyboard.SendKeys(keyname)
@@ -46,19 +46,19 @@ class LinuxKeyEventComponent(KeyEventComponent):
 
 
 class LinuxRuntimeComponent(RuntimeComponent):
-    def __init__(self, uri, dev=None):
-        super(LinuxRuntimeComponent, self).__init__(uri, dev)
+    def __init__(self, uri, dev, name=None):
+        super(LinuxRuntimeComponent, self).__init__(uri, dev, name)
    
-    def shell(self, cmd):
+    def shell(self, cmd, **kwargs):
         return subprocess.check_output(cmd, shell=True)
 
 
 class LinuxScreenComponent(ScreenComponent):
     
-    def __init__(self, uri, dev=None):
-        super(LinuxScreenComponent, self).__init__(uri, dev)
+    def __init__(self, uri, dev, name=None):
+        super(LinuxScreenComponent, self).__init__(uri, dev, name)
     
-    def snapshot(self, filename="tmp.png"):
+    def snapshot(self, filename="tmp.png", **kwargs):
         w, h = self.get_current_resolution()
         dsp = display.Display()
         root = dsp.screen().root
@@ -69,17 +69,17 @@ class LinuxScreenComponent(ScreenComponent):
             imwrite(filename, image)
         return image
 
-    def get_current_resolution(self):
+    def get_current_resolution(self, **kwargs):
         d = display.Display()
         screen = d.screen()
         w, h = (screen["width_in_pixels"], screen["height_in_pixels"])
         return w, h
 
 
-class LinuxGetterComponent(GetterComponent):
+class LinuxNetworkComponent(NetworkComponent):
     
-    def __init__(self, uri, dev=None):
-        super(LinuxGetterComponent, self).__init__(uri, dev)
+    def __init__(self, uri, dev, name=None):
+        super(LinuxNetworkComponent, self).__init__(uri, dev, name)
 
-    def get_ip_address(self):
+    def get_ip_address(self, **kwargs):
         return socket.gethostbyname(socket.gethostname())

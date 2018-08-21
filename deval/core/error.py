@@ -74,7 +74,7 @@ class ICmdError(Exception):
         self.stderr = stderr
 
     def __str__(self):
-        return "stdout[%s] stderr[%s]" %(self.stdout, self.stderr)
+        return "stdout[%s] stderr[%s]" % (self.stdout, self.stderr)
 
 
 class MinicapError(BaseError):
