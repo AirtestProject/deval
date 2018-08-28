@@ -15,10 +15,10 @@ class AndroidInputComponent(InputComponent):
         super(AndroidInputComponent, self).__init__(uri, dev, name)
 
         try:
-            self.proxy = self.dev.proxy
+            self.proxy = self..dev.androidproxy
         except AttributeError:
-            self.dev.proxy = AndroidProxy(**_check_platform_android(uri))
-            self.proxy = self.dev.proxy
+            self..dev.androidproxy = AndroidProxy(**_check_platform_android(uri))
+            self.proxy = self..dev.androidproxy
 
     def click(self, pos, **kwargs):
         duration = kwargs.get("duration", 0.05)
@@ -72,10 +72,10 @@ class AndroidKeyEventComponent(KeyEventComponent):
         super(AndroidKeyEventComponent, self).__init__(uri, dev, name)
 
         try:
-            self.proxy = self.dev.proxy
+            self.proxy = self..dev.androidproxy
         except AttributeError:
-            self.dev.proxy = AndroidProxy(**_check_platform_android(uri))
-            self.proxy = self.dev.proxy
+            self..dev.androidproxy = AndroidProxy(**_check_platform_android(uri))
+            self.proxy = self..dev.androidproxy
 
     def keyevent(self, keyname, **kwargs):
         return self.proxy.adb.keyevent(keyname)
@@ -106,10 +106,10 @@ class AndroidRuntimeComponent(RuntimeComponent):
         super(AndroidRuntimeComponent, self).__init__(uri, dev, name)
 
         try:
-            self.proxy = self.dev.proxy
+            self.proxy = self..dev.androidproxy
         except AttributeError:
-            self.dev.proxy = AndroidProxy(**_check_platform_android(uri))
-            self.proxy = self.dev.proxy
+            self..dev.androidproxy = AndroidProxy(**_check_platform_android(uri))
+            self.proxy = self..dev.androidproxy
 
     def shell(self, *args, **kwargs):
         return self.proxy.adb.shell(*args, **kwargs)
@@ -144,10 +144,10 @@ class AndroidAppComponent(AppComponent):
         super(AndroidAppComponent, self).__init__(uri, dev, name)
 
         try:
-            self.proxy = self.dev.proxy
+            self.proxy = self..dev.androidproxy
         except AttributeError:
-            self.dev.proxy = AndroidProxy(**_check_platform_android(uri))
-            self.proxy = self.dev.proxy
+            self..dev.androidproxy = AndroidProxy(**_check_platform_android(uri))
+            self.proxy = self..dev.androidproxy
 
     def start_app(self, package, activity=None, **kwargs):
         return self.proxy.adb.start_app(package, activity)
@@ -186,10 +186,10 @@ class AndroidScreenComponent(ScreenComponent):
         super(AndroidScreenComponent, self).__init__(uri, dev, name)
 
         try:
-            self.proxy = self.dev.proxy
+            self.proxy = self..dev.androidproxy
         except AttributeError:
-            self.dev.proxy = AndroidProxy(**_check_platform_android(uri))
-            self.proxy = self.dev.proxy
+            self..dev.androidproxy = AndroidProxy(**_check_platform_android(uri))
+            self.proxy = self..dev.androidproxy
 
     def snapshot(self, filename=None, ensure_orientation=True, **kwargs):
         if self.proxy.cap_method == CAP_METHOD.MINICAP_STREAM:
@@ -231,10 +231,10 @@ class AndroidNetworkComponent(NetworkComponent):
         super(AndroidNetworkComponent, self).__init__(uri, dev, name)
 
         try:
-            self.proxy = self.dev.proxy
+            self.proxy = self..dev.androidproxy
         except AttributeError:
-            self.dev.proxy = AndroidProxy(**_check_platform_android(uri))
-            self.proxy = self.dev.proxy
+            self..dev.androidproxy = AndroidProxy(**_check_platform_android(uri))
+            self.proxy = self..dev.androidproxy
 
     def get_ip_address(self, **kwargs):
         return self.proxy.adb.get_ip_address()
@@ -246,10 +246,10 @@ class AndroidStatueComponent(Component):
         super(AndroidStatueComponent, self).__init__(uri, dev, name)
 
         try:
-            self.proxy = self.dev.proxy
+            self.proxy = self..dev.androidproxy
         except AttributeError:
-            self.dev.proxy = AndroidProxy(**_check_platform_android(uri))
-            self.proxy = self.dev.proxy
+            self..dev.androidproxy = AndroidProxy(**_check_platform_android(uri))
+            self.proxy = self..dev.androidproxy
 
     def is_keyboard_shown(self, **kwargs):
         return self.proxy.adb.is_keyboard_shown()

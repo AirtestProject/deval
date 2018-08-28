@@ -12,7 +12,7 @@ class AndroidDevice(BaseDevice):
         super(AndroidDevice, self).__init__()
 
         kw = _check_platform_android(uri)
-        self.proxy = AndroidProxy(**kw)
+        self.androidproxy = AndroidProxy(**kw)
 
         self.addComponent(AndroidAppComponent(uri, self))
         self.addComponent(AndroidNetworkComponent(uri, self))
