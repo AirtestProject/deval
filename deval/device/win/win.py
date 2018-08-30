@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from deval.device.device import BaseDevice
-from deval.component.win.wincomponent import WinAppComponent, WinInputComponent, WinKeyEventComponent
-from deval.component.win.wincomponent import WinNetworkComponent, WinRuntimeComponent, WinRuntimeComponent, WinScreenComponent
-from deval.core.win.winfuncs import get_app, get_window, _check_platform_win
+from deval.device.std.device import BaseDevice
+from deval.component.win.winappcomponent import WinAppComponent
+from deval.component.win.wininputcomponent import WinInputComponent
+from deval.component.win.winkeyeventcomponent import WinKeyEventComponent
+from deval.component.win.winnetworkcomponent import WinNetworkComponent
+from deval.component.win.winruntimecomponent import WinRuntimeComponent
+from deval.component.win.winscreencomponent import WinScreenComponent
+from deval.utils.win.winfuncs import get_app, get_window, _check_platform_win
 
 
 class WinDevice(BaseDevice):

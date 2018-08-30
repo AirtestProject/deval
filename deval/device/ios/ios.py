@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from deval.device.device import BaseDevice
-from deval.component.ios.ioscomponent import IOSAppComponent, IOSNetworkComponent, IOSInputComponent
-from deval.component.ios.ioscomponent import IOSKeyEventComponent, IOSScreenComponent, IOSStatueComponent
-from deval.core.ios.iosfuncs import IOSProxy, _check_platform_ios
+from deval.device.std.device import BaseDevice
+from deval.component.ios.iosappcomponent import IOSAppComponent
+from deval.component.ios.iosnetworkcomponent import IOSNetworkComponent
+from deval.component.ios.iosinputcomponent import IOSInputComponent
+from deval.component.ios.ioskeyeventcomponent import IOSKeyEventComponent
+from deval.component.ios.iosscreencomponent import IOSScreenComponent
+from deval.component.ios.iosstatuecomponent import IOSStatueComponent
+from deval.utils.ios.iosfuncs import IOSProxy, _check_platform_ios
 
 
 class IOSDevice(BaseDevice):
@@ -26,4 +30,3 @@ class IOSDevice(BaseDevice):
     @property
     def uuid(self):
         return self.uri
-
