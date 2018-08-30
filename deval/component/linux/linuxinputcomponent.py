@@ -1,25 +1,59 @@
 # -*- coding: utf-8 -*-
 
-
-import pyautogui as inputs
+import time
+from pywinauto import mouse
 from deval.component.std.inputcomponent import InputComponent
+from mss import mss
+from pynput.mouse import Controller, Button
 
 
 class LinuxInputComponent(InputComponent):
     def __init__(self, uri, dev, name=None):
         super(LinuxInputComponent, self).__init__(uri, dev, name)
+        self.screen = mss()
+        self.monitor = self.screen.monitors[0]
+        self.singlemonitor = self.screen.monitors[1]
         
     def click(self, pos, **kwargs):
+        pos = list(pos)
+        pos[0] = pos[0] + self.monitor["left"]
+        pos[1] = pos[1] + self.monitor["top"]
+        duration = kwargs.get("duration", 0.01)
         right_click = kwargs.get("right_click", False)
-        button = "right" if right_click else "left"
-        inputs.click(pos[0], pos[1], button=button)
+        button = 'right' if right_click else 'left'
+        mouse.press(button=button, coords=pos)
+        time.sleep(duration)
+        mouse.release(button=button, coords=pos)
 
     def swipe(self, p1, p2, **kwargs):
         duration = kwargs.get("duration", 0.8)
-        from_x, from_y = p1
-        to_x, to_y = p2
-        inputs.moveTo(from_x, from_y)
-        inputs.dragTo(to_x, to_y, duration=duration)
+        steps = kwargs.get("steps", 5)
+        x1, y1 = p1
+        x2, y2 = p2
+        x1 = x1 + self.monitor["left"]
+        x2 = x2 + self.monitor["left"]
+        y1 = y1 + self.monitor["top"]
+        y2 = y2 + self.monitor["top"]
+        ratio_x = self.monitor["width"] / self.singlemonitor["width"]
+        ratio_y = self.monitor["height"] / self.singlemonitor["height"]
+        x2 = x1 + (x2 - x1) / ratio_x
+        y2 = y1 + (y2 - y1) / ratio_y
+        m = Controller()
+        interval = float(duration) / (steps + 1)
+        m.position = (x1, y1)
+        m.press(Button.left)
+        time.sleep(interval)
+        for i in range(1, steps + 1):
+            m.move(
+                int((x2 - x1) / steps),
+                int((y2 - y1) / steps)
+            )
+            time.sleep(interval)
+        time.sleep(interval)
+        m.release(Button.left)
 
     def double_tap(self, pos, **kwargs):
-        inputs.click(pos[0], pos[1], clicks=2, interval=0.05)
+        pos = list(pos)
+        pos[0] = pos[0] + self.monitor["left"]
+        pos[1] = pos[1] + self.monitor["top"]
+        mouse.double_click(coords=pos)

@@ -5,7 +5,7 @@ from deval.component.linux.linuxinputcomponent import LinuxInputComponent
 from deval.component.linux.linuxnetworkcomponent import LinuxNetworkComponent
 from deval.component.linux.linuxkeyeventcomponent import LinuxKeyEventComponent
 from deval.component.linux.linuxruntimecomponent import LinuxRuntimeComponent
-#from deval.component.linux.linuxscreencomponent import LinuxScreenComponent
+from deval.component.linux.linuxscreencomponent import LinuxScreenComponent
 
 
 class LinuxDevice(BaseDevice):
@@ -16,7 +16,7 @@ class LinuxDevice(BaseDevice):
         self.addComponent(LinuxNetworkComponent(uri, self))
         self.addComponent(LinuxKeyEventComponent(uri, self))
         self.addComponent(LinuxRuntimeComponent(uri, self))
-        #self.addComponent(LinuxScreenComponent(uri, self))
+        self.addComponent(LinuxScreenComponent(uri, self))
 
         self.uri = uri
         

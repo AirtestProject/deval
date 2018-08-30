@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-
 from pywinauto import keyboard
 from deval.component.std.keyeventcomponent import KeyEventComponent
 
