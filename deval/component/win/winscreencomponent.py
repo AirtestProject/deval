@@ -44,5 +44,6 @@ class WinScreenComponent(ScreenComponent):
         return screen
 
     def move(self, pos, **kwargs):
+        # not stable, use carefully
         if self.window:
             self.window.MoveWindow(x=pos[0], y=pos[1])

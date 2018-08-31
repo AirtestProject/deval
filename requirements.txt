@@ -7,3 +7,4 @@ facebook-wda
 pywinauto==0.6.3
 pyautogui
 mss
+pynput

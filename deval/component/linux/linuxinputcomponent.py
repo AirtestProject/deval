@@ -15,6 +15,11 @@ class LinuxInputComponent(InputComponent):
         self.singlemonitor = self.screen.monitors[1]
         
     def click(self, pos, **kwargs):
+        button = kwargs.get("button", "left")
+        duration = kwargs.get("duration", 0.05)
+        if button not in ("left", "right", "middle"):
+            raise ValueError("Unknow button: " + button)
+
         pos = list(pos)
         pos[0] = pos[0] + self.monitor["left"]
         pos[1] = pos[1] + self.monitor["top"]
@@ -28,6 +33,15 @@ class LinuxInputComponent(InputComponent):
     def swipe(self, p1, p2, **kwargs):
         duration = kwargs.get("duration", 0.8)
         steps = kwargs.get("steps", 5)
+        button = kwargs.get("button", "left")
+        if button is "middle":
+            button = Button.middle
+        elif button is "right":
+            button = Button.right
+        elif button is "left":
+            button = Button.left
+        else:
+            raise ValueError("Unknow button: " + button)
         x1, y1 = p1
         x2, y2 = p2
         x1 = x1 + self.monitor["left"]
@@ -41,7 +55,7 @@ class LinuxInputComponent(InputComponent):
         m = Controller()
         interval = float(duration) / (steps + 1)
         m.position = (x1, y1)
-        m.press(Button.left)
+        m.press(button)
         time.sleep(interval)
         for i in range(1, steps + 1):
             m.move(
@@ -49,11 +63,15 @@ class LinuxInputComponent(InputComponent):
                 int((y2 - y1) / steps)
             )
             time.sleep(interval)
+        m.position = (x2, y2)
         time.sleep(interval)
-        m.release(Button.left)
+        m.release(button)
 
     def double_tap(self, pos, **kwargs):
+        button = kwargs.get("button", "left")
+        if button not in ("left", "right", "middle"):
+            raise ValueError("Unknow button: " + button)
         pos = list(pos)
         pos[0] = pos[0] + self.monitor["left"]
         pos[1] = pos[1] + self.monitor["top"]
-        mouse.double_click(coords=pos)
+        mouse.double_click(button=button, coords=pos)

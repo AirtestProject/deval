@@ -3,6 +3,7 @@
 import time
 from mss import mss
 from pywinauto import mouse
+from pynput.mouse import Controller, Button
 from deval.component.std.inputcomponent import InputComponent
 from deval.utils.win.winfuncs import get_app, get_rect, get_window, set_foreground_window
 from deval.utils.win.winfuncs import Application, get_action_pos
@@ -29,8 +30,10 @@ class WinInputComponent(InputComponent):
     def click(self, pos, **kwargs):
         set_foreground_window(self.window)
         duration = kwargs.get("duration", 0.01)
-        right_click = kwargs.get("right_click", False)
-        button = "right" if right_click else "left"
+        button = kwargs.get("button", "left")
+        if button not in ("left", "right", "middle"):
+            raise ValueError("Unknow button: " + button)
+
         pos = list(pos)
         pos[0] = pos[0] + self.monitor["left"]
         pos[1] = pos[1] + self.monitor["top"]
@@ -44,6 +47,15 @@ class WinInputComponent(InputComponent):
         set_foreground_window(self.window)
 
         duration = kwargs.get("duration", 0.8)
+        button = kwargs.get("button", "left")
+        if button is "middle":
+            button = Button.middle
+        elif button is "right":
+            button = Button.right
+        elif button is "left":
+            button = Button.left
+        else:
+            raise ValueError("Unknow button: " + button)
         steps = kwargs.get("steps", 5)
 
         x1, y1 = p1
@@ -64,34 +76,40 @@ class WinInputComponent(InputComponent):
 
         from_x, from_y = get_action_pos(self.window, p1)
         to_x, to_y = get_action_pos(self.window, p2)
+        
+        m = Controller()
         interval = float(duration) / (steps + 1)
-        mouse.press(coords=(from_x, from_y))
+        m.position = (from_x, from_y)
+        m.press(button)
         time.sleep(interval)
-        for i in range(1, steps):
-            mouse.move(coords=(
-                int(from_x + (to_x - from_x) * i / steps),
-                int(from_y + (to_y - from_y) * i / steps),
-            ))
+        for i in range(1, steps + 1):
+            m.move(
+                int((to_x - from_x) / steps),
+                int((to_y - from_y) / steps)
+            )
             time.sleep(interval)
-        for i in range(10):
-            mouse.move(coords=(to_x, to_y))
+        m.position = (x2, y2)
         time.sleep(interval)
-        mouse.release(coords=(to_x, to_y))
+        m.release(button)
 
     def double_tap(self, pos, **kwargs):
         set_foreground_window(self.window)
+        button = kwargs.get("button", "left")
+        if button not in ("left", "right", "middle"):
+            raise ValueError("Unknow button: " + button)
+
         pos = list(pos)
         pos[0] = pos[0] + self.monitor["left"]
         pos[1] = pos[1] + self.monitor["top"]
         pos = tuple(pos)
         coords = get_action_pos(self.window, pos)
-        mouse.double_click(coords=coords)
+        mouse.double_click(button=button, coords=coords)
 
     def scroll(self, pos, **kwargs):
         set_foreground_window(self.window)
 
         duration = kwargs.get("duration", 2)
-        steps = kwargs.get("steps", -1)
+        steps = kwargs.get("steps", 1)
 
         pos = list(pos)
         pos[0] = pos[0] + self.monitor["left"]
