@@ -20,14 +20,14 @@ class WinAppComponent(AppComponent):
 
     def start_app(self, path, **kwargs):
         return Application().start(path)
-    
-    def stop_app(self, app=None, **kwargs):
+
+    def stop_app(self, app=None):
         if app is None and self.app:
             self.app.kill()
             return
         if app:
             app.kill()
 
-    def get_title(self, **kwargs):
+    def get_title(self):
         if self.window:
             return self.window.texts()

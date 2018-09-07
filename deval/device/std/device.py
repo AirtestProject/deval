@@ -2,16 +2,17 @@
 
 
 class BaseDevice(object):
-    
+
     def __init__(self):
         self.ComponentList = dict()
 
     def addComponent(self, com):
-        if com.Name in self.ComponentList:
-            raise RuntimeError("Duplicate component, please check component name")
+        if com.name in self.ComponentList:
+            raise RuntimeError(
+                "Duplicate component, please check component name")
         else:
-            self.ComponentList[com.Name] = com
-            
+            self.ComponentList[com.name] = com
+
     def getComponent(self, name):
         if name in self.ComponentList:
             return self.ComponentList.get(name)
@@ -39,7 +40,7 @@ class BaseDevice(object):
     @property
     def appComponent(self):
         return self.getComponent("app")
-    
+
     @property
     def screenComponent(self):
         return self.getComponent("screen")
@@ -50,64 +51,59 @@ class BaseDevice(object):
 
     # useful events
 
-    def click(self, pos, **kwargs):
+    def click(self, pos, duration=0.05, button='left'):
         """
         Win&Linux下可选参数：
             duration: 点击时长
             button: 点击的按钮（"left", "right", "middle"）
         """
-        return self.inputComponent.click(pos, **kwargs)
-    
-    def rclick(self, pos, **kwargs):
-        return self.inputComponent.click(pos, button="right", **kwargs)
-    
-    def long_click(self, pos, duration=2, **kwargs):
-        return self.inputComponent.click(pos, duration=duration, **kwargs)
+        return self.inputComponent.click(pos, duration, button)
 
-    def tap(self, pos, **kwargs):
-        return self.click(pos, **kwargs)
+    def rclick(self, pos, duration=0.05, button='right'):
+        return self.inputComponent.click(pos, duration, button)
 
-    def swipe(self, p1, p2, **kwargs):
+    def long_click(self, pos, duration=2, button='left'):
+        return self.inputComponent.click(pos, duration, button)
+
+    def tap(self, pos, duration=0.05):
+        return self.click(pos, duration, 'left')
+
+    def swipe(self, p1, p2, duration=0.5, steps=5, fingers=1, button='left'):
         """
         Win&Linux可选参数：
             duration: 完成swipe动作所需时长
             button: swipe使用的按钮（"left", "right", "middle"）
             steps: swipe中间的次数
         """
-        return self.inputComponent.swipe(p1, p2, **kwargs)
+        return self.inputComponent.swipe(p1, p2, duration, steps, fingers, button)
 
-    def double_tap(self, pos, **kwargs):
+    def double_tap(self, pos, button='left'):
         """
         Win&Linux下可选参数：
             button: 点击的按钮（"left", "right", "middle"）
         """
-        return self.inputComponent.double_tap(pos, **kwargs)
+        return self.inputComponent.double_tap(pos, button)
 
-    def keyevent(self, keyname, **kwargs):
-        """
-        Win&Linux可选参数：
-            waittime: 两个按钮间点击的间隔
-        """
-        return self.keyeventComponent.keyevent(keyname, **kwargs)
-    
-    def text(self, text, **kwargs):
-        """
-        Win&Linux可选参数：
-            waittime: 两个按钮间点击的间隔
-        """
-        return self.keyeventComponent.text(text, **kwargs)
+    def scroll(self, pos, direction="vertical", duration=0.5, steps=5):
+        return self.inputComponent.scroll(pos, direction, duration, steps)
 
-    def shell(self, *args, **kwargs):
-        return self.runtimeComponent.shell(*args, **kwargs)
+    def keyevent(self, keyname):
+        return self.keyeventComponent.keyevent(keyname)
 
-    def start_app(self, package, activity=None, **kwargs):
-        return self.appComponent.start_app(package, activity=None, **kwargs)
+    def text(self, text, enter=True):
+        return self.keyeventComponent.text(text, enter)
 
-    def stop_app(self, package=None, **kwargs):
-        return self.appComponent.stop_app(package, **kwargs)
+    def shell(self, cmd):
+        return self.runtimeComponent.shell(cmd)
 
-    def snapshot(self, filename="tmp.jpg", **kwargs):
-        return self.screenComponent.snapshot(filename, **kwargs)
+    def start_app(self, package, activity=None):
+        return self.appComponent.start_app(package, activity=None)
 
-    def get_ip_address(self, *args, **kwargs):
-        return self.networkComponent.get_ip_address(*args, **kwargs)
+    def stop_app(self, package=None):
+        return self.appComponent.stop_app(package)
+
+    def snapshot(self, filename="tmp.jpg"):
+        return self.screenComponent.snapshot(filename)
+
+    def get_ip_address(self):
+        return self.networkComponent.get_ip_address()

@@ -6,7 +6,7 @@ from deval.utils.parse import parse_uri
 
 
 class IOSStatueComponent(Component):
-    
+
     def __init__(self, uri, dev, name="statue"):
         super(IOSStatueComponent, self).__init__(uri, dev, name)
 
@@ -16,5 +16,5 @@ class IOSStatueComponent(Component):
             self.dev.iosproxy = IOSProxy(**_check_platform_ios(uri))
             self.proxy = self.dev.iosproxy
 
-    def device_status(self, **kwargs):
+    def device_status(self):
         return self.proxy.driver.status()

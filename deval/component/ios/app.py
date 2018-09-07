@@ -6,7 +6,7 @@ from deval.utils.parse import parse_uri
 
 
 class IOSAppComponent(AppComponent):
-    
+
     def __init__(self, uri, dev, name=None):
         super(IOSAppComponent, self).__init__(uri, dev, name)
 
@@ -16,8 +16,8 @@ class IOSAppComponent(AppComponent):
             self.dev.iosproxy = IOSProxy(**_check_platform_ios(uri))
             self.proxy = self.dev.iosproxy
 
-    def start_app(self, package, activity=None, **kwargs):
+    def start_app(self, package, activity=None):
         self.proxy.driver.session(package)
 
-    def stop_app(self, package, **kwargs):
+    def stop_app(self, package):
         self.proxy.driver.session().close()

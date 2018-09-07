@@ -7,7 +7,7 @@ from deval.utils.parse import parse_uri
 
 
 class IOSScreenComponent(ScreenComponent):
-    
+
     def __init__(self, uri, dev, name=None):
         super(IOSScreenComponent, self).__init__(uri, dev, name)
 
@@ -17,11 +17,12 @@ class IOSScreenComponent(ScreenComponent):
             self.dev.iosproxy = IOSProxy(**_check_platform_ios(uri))
             self.proxy = self.dev.iosproxy
 
-    def snapshot(self, filename=None, strType=False, ensure_orientation=True, **kwargs):
+    def snapshot(self, filename=None, ensure_orientation=True):
         """
         take snapshot
         filename: save screenshot to filename
         """
+        strType = False
         data = None
 
         if self.proxy.cap_method == CAP_METHOD.MINICAP:
@@ -55,12 +56,14 @@ class IOSScreenComponent(ScreenComponent):
             if self.proxy.cap_method in (CAP_METHOD.MINICAP, CAP_METHOD.MINICAP_STREAM):
                 h, w = screen.shape[:2]  # cvshape是高度在前面!!!!
                 if w < h:  # 当前是横屏，但是图片是竖的，则旋转，针对sdk<=16的机器
-                    screen = rotate(screen, self.proxy.display_info["orientation"] * 90, clockwise=False)
+                    screen = rotate(
+                        screen, self.proxy.display_info["orientation"] * 90, clockwise=False)
 
             # wda 截图是要根据orientation旋转
             elif self.proxy.cap_method == CAP_METHOD.WDACAP:
                 # seems need to rotate in opencv opencv-contrib-python==3.2.0.7
-                screen = rotate(screen, 90, clockwise=(now_orientation == LANDSCAPE_RIGHT))
+                screen = rotate(screen, 90, clockwise=(
+                    now_orientation == LANDSCAPE_RIGHT))
 
         # readed screen size
         h, w = screen.shape[:2]

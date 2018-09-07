@@ -13,27 +13,19 @@ class LinuxInputComponent(InputComponent):
         self.screen = mss()
         self.monitor = self.screen.monitors[0]
         self.singlemonitor = self.screen.monitors[1]
-        
-    def click(self, pos, **kwargs):
-        button = kwargs.get("button", "left")
-        duration = kwargs.get("duration", 0.05)
+
+    def click(self, pos, duration=0.05, button='left'):
         if button not in ("left", "right", "middle"):
             raise ValueError("Unknow button: " + button)
 
         pos = list(pos)
         pos[0] = pos[0] + self.monitor["left"]
         pos[1] = pos[1] + self.monitor["top"]
-        duration = kwargs.get("duration", 0.01)
-        right_click = kwargs.get("right_click", False)
-        button = 'right' if right_click else 'left'
         mouse.press(button=button, coords=pos)
         time.sleep(duration)
         mouse.release(button=button, coords=pos)
 
-    def swipe(self, p1, p2, **kwargs):
-        duration = kwargs.get("duration", 0.8)
-        steps = kwargs.get("steps", 5)
-        button = kwargs.get("button", "left")
+    def swipe(self, p1, p2, duration=0.5, steps=5, fingers=1, button='left'):
         if button is "middle":
             button = Button.middle
         elif button is "right":
@@ -67,8 +59,7 @@ class LinuxInputComponent(InputComponent):
         time.sleep(interval)
         m.release(button)
 
-    def double_tap(self, pos, **kwargs):
-        button = kwargs.get("button", "left")
+    def double_tap(self, pos, button='left'):
         if button not in ("left", "right", "middle"):
             raise ValueError("Unknow button: " + button)
         pos = list(pos)

@@ -9,42 +9,42 @@ class AppComponent(Component):
             super(AppComponent, self).__init__(uri, dev, "app")
         else:
             super(AppComponent, self).__init__(uri, dev, name)
-    
-    def start_app(self, package, activity=None, **kwargs):
+
+    def start_app(self, package, activity=None):
         raise NotImplementedError
 
-    def stop_app(self, package, **kwargs):
+    def stop_app(self, package):
         raise NotImplementedError
 
-    def install(self, filepath, **kwargs):
+    def install(self, filepath):
         raise NotImplementedError
 
-    def uninstall(self, package, **kwargs):
+    def uninstall(self, package):
         raise NotImplementedError
 
-    def start_app_timing(self, package, activity=None, **kwargs):
+    def start_app_timing(self, package, activity=None):
         raise NotImplementedError
 
-    def clear_app(self, package, **kwargs):
+    def clear_app(self, package):
         raise NotImplementedError
 
-    def install_app(self, filepath, replace=False, **kwargs):
+    def install_app(self, filepath, replace=False):
         raise NotImplementedError
 
-    def install_multiple_app(self, filepath, replace=False, **kwargs):
+    def install_multiple_app(self, filepath, replace=False):
         raise NotImplementedError
 
-    def uninstall_app(self, package, **kwargs):
+    def uninstall_app(self, package):
         raise NotImplementedError
 
-    def list_app(self, third_only=False, **kwargs):
+    def list_app(self, third_only=False):
         raise NotImplementedError
 
-    def get_install_path(self, package, **kwargs):
+    def get_install_path(self, package):
         raise NotImplementedError
 
-    def exists(self, package, **kwargs):
+    def exists(self, package):
         raise NotImplementedError
 
-    def get_title(self, *args, **kwargs):
+    def get_title(self):
         raise NotImplementedError

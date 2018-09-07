@@ -9,9 +9,9 @@ class KeyEventComponent(Component):
             super(KeyEventComponent, self).__init__(uri, dev, "keyevent")
         else:
             super(KeyEventComponent, self).__init__(uri, dev, name)
-    
-    def keyevent(self, keyname, **kwargs):
+
+    def keyevent(self, keyname):
         raise NotImplementedError
 
-    def text(self, text, **kwargs):
+    def text(self, text, enter=True):
         raise NotImplementedError

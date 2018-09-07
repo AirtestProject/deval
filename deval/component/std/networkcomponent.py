@@ -9,6 +9,6 @@ class NetworkComponent(Component):
             super(NetworkComponent, self).__init__(uri, dev, "network")
         else:
             super(NetworkComponent, self).__init__(uri, dev, name)
-    
-    def get_ip_address(self, *args, **kwargs):
+
+    def get_ip_address(self):
         raise NotImplementedError

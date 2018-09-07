@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from deval.device.std.device import BaseDevice
-from deval.component.win.winappcomponent import WinAppComponent
-from deval.component.win.wininputcomponent import WinInputComponent
-from deval.component.win.winkeyeventcomponent import WinKeyEventComponent
-from deval.component.win.winnetworkcomponent import WinNetworkComponent
-from deval.component.win.winruntimecomponent import WinRuntimeComponent
-from deval.component.win.winscreencomponent import WinScreenComponent
+from deval.component.win.app import WinAppComponent
+from deval.component.win.input import WinInputComponent
+from deval.component.win.keyevent import WinKeyEventComponent
+from deval.component.win.network import WinNetworkComponent
+from deval.component.win.runtime import WinRuntimeComponent
+from deval.component.win.screen import WinScreenComponent
 from deval.utils.win.winfuncs import get_app, get_window, _check_platform_win
 
 
@@ -24,7 +24,7 @@ class WinDevice(BaseDevice):
         self.addComponent(WinAppComponent(uri, self))
 
         self.uri = uri
-        
+
     @property
     def uuid(self):
         return self.uri

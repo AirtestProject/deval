@@ -9,9 +9,9 @@ class RuntimeComponent(Component):
             super(RuntimeComponent, self).__init__(uri, dev, "runtime")
         else:
             super(RuntimeComponent, self).__init__(uri, dev, name)
-    
-    def shell(self, *args, **kwargs):
+
+    def shell(self, cmd):
         raise NotImplementedError
 
-    def kill(self, pid, **kwargs):
+    def kill(self, pid):
         raise NotImplementedError

@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 
 from deval.device.std.device import BaseDevice
-from deval.component.ios.iosappcomponent import IOSAppComponent
-from deval.component.ios.iosnetworkcomponent import IOSNetworkComponent
-from deval.component.ios.iosinputcomponent import IOSInputComponent
-from deval.component.ios.ioskeyeventcomponent import IOSKeyEventComponent
-from deval.component.ios.iosscreencomponent import IOSScreenComponent
-from deval.component.ios.iosstatuecomponent import IOSStatueComponent
+from deval.component.ios.app import IOSAppComponent
+from deval.component.ios.network import IOSNetworkComponent
+from deval.component.ios.input import IOSInputComponent
+from deval.component.ios.keyevent import IOSKeyEventComponent
+from deval.component.ios.screen import IOSScreenComponent
+from deval.component.ios.statue import IOSStatueComponent
 from deval.utils.ios.iosfuncs import IOSProxy, _check_platform_ios
 
 
 class IOSDevice(BaseDevice):
-    
+
     def __init__(self, uri):
         super(IOSDevice, self).__init__()
 

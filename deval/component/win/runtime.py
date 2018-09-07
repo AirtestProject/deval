@@ -14,9 +14,9 @@ class WinRuntimeComponent(RuntimeComponent):
         except AttributeError:
             self.dev.window = get_window(_check_platform_win(self.uri))
             self.window = self.dev.window
-   
-    def shell(self, cmd, **kwargs):
+
+    def shell(self, cmd):
         return subprocess.check_output(cmd, shell=True)
 
-    def kill(self, pid, **kwargs):
+    def kill(self, pid):
         Application().connect(process=pid).kill()

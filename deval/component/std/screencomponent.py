@@ -9,9 +9,9 @@ class ScreenComponent(Component):
             super(ScreenComponent, self).__init__(uri, dev, "screen")
         else:
             super(ScreenComponent, self).__init__(uri, dev, name)
-    
-    def snapshot(self, filename, **kwargs):
+
+    def snapshot(self, filename, ensure_orientation=True):
         raise NotImplementedError
 
-    def move(self, pos, **kwargs):
+    def move(self, pos):
         raise NotImplementedError

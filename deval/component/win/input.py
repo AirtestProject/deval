@@ -24,13 +24,12 @@ class WinInputComponent(InputComponent):
             self.window = self.dev.window
         self.screen = mss()
         self.monitor = self.screen.monitors[0]  # 双屏的时候，self.monitor为整个双屏
-        self.singlemonitor = self.screen.monitors[1]  # 双屏的时候，self.singlemonitor
+        # 双屏的时候，self.singlemonitor
+        self.singlemonitor = self.screen.monitors[1]
         # self.secondmonitor = self.screen.monitors[2]  # 双屏的时候，self.secondmonitor
-        
-    def click(self, pos, **kwargs):
+
+    def click(self, pos, duration=0.05, button='left'):
         set_foreground_window(self.window)
-        duration = kwargs.get("duration", 0.01)
-        button = kwargs.get("button", "left")
         if button not in ("left", "right", "middle"):
             raise ValueError("Unknow button: " + button)
 
@@ -43,11 +42,9 @@ class WinInputComponent(InputComponent):
         time.sleep(duration)
         mouse.release(button=button, coords=coords)
 
-    def swipe(self, p1, p2, **kwargs):
+    def swipe(self, p1, p2, duration=0.5, steps=5, fingers=1, button='left'):
         set_foreground_window(self.window)
 
-        duration = kwargs.get("duration", 0.8)
-        button = kwargs.get("button", "left")
         if button is "middle":
             button = Button.middle
         elif button is "right":
@@ -56,7 +53,6 @@ class WinInputComponent(InputComponent):
             button = Button.left
         else:
             raise ValueError("Unknow button: " + button)
-        steps = kwargs.get("steps", 5)
 
         x1, y1 = p1
         x2, y2 = p2
@@ -67,8 +63,10 @@ class WinInputComponent(InputComponent):
         y2 = y2 + self.monitor["top"]
         # 双屏时，涉及到了移动的比例换算:
         if len(self.screen.monitors) > 2:
-            ratio_x = (self.monitor["width"] + self.monitor["left"]) / self.singlemonitor["width"]
-            ratio_y = (self.monitor["height"] + self.monitor["top"]) / self.singlemonitor["height"]
+            ratio_x = (
+                self.monitor["width"] + self.monitor["left"]) / self.singlemonitor["width"]
+            ratio_y = (
+                self.monitor["height"] + self.monitor["top"]) / self.singlemonitor["height"]
             x2 = int(x1 + (x2 - x1) * ratio_x)
             y2 = int(y1 + (y2 - y1) * ratio_y)
             p1 = (x1, y1)
@@ -76,7 +74,7 @@ class WinInputComponent(InputComponent):
 
         from_x, from_y = get_action_pos(self.window, p1)
         to_x, to_y = get_action_pos(self.window, p2)
-        
+
         m = Controller()
         interval = float(duration) / (steps + 1)
         m.position = (from_x, from_y)
@@ -92,9 +90,8 @@ class WinInputComponent(InputComponent):
         time.sleep(interval)
         m.release(button)
 
-    def double_tap(self, pos, **kwargs):
+    def double_tap(self, pos, button='left'):
         set_foreground_window(self.window)
-        button = kwargs.get("button", "left")
         if button not in ("left", "right", "middle"):
             raise ValueError("Unknow button: " + button)
 
@@ -105,11 +102,14 @@ class WinInputComponent(InputComponent):
         coords = get_action_pos(self.window, pos)
         mouse.double_click(button=button, coords=coords)
 
-    def scroll(self, pos, **kwargs):
+    def scroll(self, pos, direction="vertical", duration=0.5, steps=5):
+        if direction is "horizontal":
+            raise ValueError(
+                "Windows does not support horizontal scrolling currently")
+        if direction is not 'vertical':
+            raise ValueError(
+                'Argument `direction` should be "vertical". Got {}'.format(repr(direction)))
         set_foreground_window(self.window)
-
-        duration = kwargs.get("duration", 2)
-        steps = kwargs.get("steps", 1)
 
         pos = list(pos)
         pos[0] = pos[0] + self.monitor["left"]
