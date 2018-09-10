@@ -13,7 +13,7 @@ from deval.utils.win.winfuncs import get_app, get_window, _check_platform_win
 class WinDevice(BaseDevice):
 
     def __init__(self, uri):
-        super(WinDevice, self).__init__()
+        super(WinDevice, self).__init__(uri)
         self.app = get_app(_check_platform_win(uri))
         self.window = get_window(_check_platform_win(uri))
         self.addComponent(WinNetworkComponent(uri, self))
@@ -22,8 +22,6 @@ class WinDevice(BaseDevice):
         self.addComponent(WinRuntimeComponent(uri, self))
         self.addComponent(WinScreenComponent(uri, self))
         self.addComponent(WinAppComponent(uri, self))
-
-        self.uri = uri
 
     @property
     def uuid(self):

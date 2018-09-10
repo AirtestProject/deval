@@ -11,13 +11,25 @@ class MacKeyEventComponent(KeyEventComponent):
         self.keyboard = Controller()
 
     def keyevent(self, keyname):
+        """
+        Use pynput to simulate keyboard input
+
+        Parameters:
+            keyname - the keys
+        """
         waittime = 0.05
         for c in keyname:
             self.keyboard.press(key=c)
             self.keyboard.release(key=c)
             time.sleep(waittime)
 
-    def text(self, text, enter=True):
+    def text(self, text, enter=False):
+        """
+        Use pynput to simulate keyboard input
+
+        Parameters:
+            keyname - the keys
+        """
         waittime = 0.05
         for c in text:
             self.keyboard.press(key=c)

@@ -9,4 +9,10 @@ class MacAppComponent(AppComponent):
         super(MacAppComponent, self).__init__(uri, dev, name)
 
     def start_app(self, path, **kwargs):
+        """
+        Use the console command to start a program
+
+        Parameters:
+            path - the command
+        """
         os.system("open %s" % path)

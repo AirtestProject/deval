@@ -11,7 +11,19 @@ class RuntimeComponent(Component):
             super(RuntimeComponent, self).__init__(uri, dev, name)
 
     def shell(self, cmd):
+        """
+        Enter console command
+
+        Parameters:
+            cmd - the command.
+        """
         raise NotImplementedError
 
     def kill(self, pid):
+        """
+        Kill a program based on the process ID
+
+        Parameters:
+            pid - the pid.
+        """
         raise NotImplementedError

@@ -10,11 +10,10 @@ from deval.utils.android.androidfuncs import AndroidProxy, _check_platform_andro
 class AndroidDevice(BaseDevice):
 
     def __init__(self, uri):
-        super(AndroidDevice, self).__init__()
+        super(AndroidDevice, self).__init__(uri)
 
         kw = _check_platform_android(uri)
         self.proxy = AndroidProxy(**kw)
-        self.uri = uri
         self.addComponent(AndroidAppComponent(uri, self))
         self.addComponent(AndroidNetworkComponent(uri, self))
         self.addComponent(AndroidRuntimeComponent(uri, self))

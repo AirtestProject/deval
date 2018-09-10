@@ -10,7 +10,7 @@ class AndroidAppComponent(AppComponent):
     def __init__(self, uri, dev, name=None):
         super(AndroidAppComponent, self).__init__(uri, dev, name)
         try:
-            self.proxy = self.dev.androidproxy
+            self.proxy = self.dev.androidproxy  # 获取设备的数据
         except AttributeError:
             self.dev.androidproxy = AndroidProxy(
                 **_check_platform_android(uri))

@@ -4,6 +4,18 @@ from deval.utils.parse import parse_uri
 
 
 def _check_platform_mac(uri, platform="mac"):
+    """
+    Check the uri and return a dictionary containing the various parameters contained in the uri.
+
+    Parameters:
+        uri - an URI where to connect to device, e.g. `mac:///`
+
+    Returns:
+        A dictionary containing the various parameters contained in the uri.
+
+    Raises:
+        RuntimeError - raise when the platform does not match the uri.
+    """
     params = parse_uri(uri)
     if params["platform"] != platform:
         raise RuntimeError("Platform error!")

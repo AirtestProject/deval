@@ -13,7 +13,7 @@ from deval.utils.ios.iosfuncs import IOSProxy, _check_platform_ios
 class IOSDevice(BaseDevice):
 
     def __init__(self, uri):
-        super(IOSDevice, self).__init__()
+        super(IOSDevice, self).__init__(uri)
 
         kw = _check_platform_ios(uri)
         self.iosproxy = IOSProxy(**kw)
@@ -24,8 +24,6 @@ class IOSDevice(BaseDevice):
         self.addComponent(IOSKeyEventComponent(uri, self))
         self.addComponent(IOSScreenComponent(uri, self))
         self.addComponent(IOSStatueComponent(uri, self))
-
-        self.uri = uri
 
     @property
     def uuid(self):

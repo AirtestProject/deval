@@ -9,7 +9,7 @@ from deval.component.std.inputcomponent import InputComponent
 class MacInputComponent(InputComponent):
     def __init__(self, uri, dev, name=None):
         super(MacInputComponent, self).__init__(uri, dev, name)
-        self.screen = mss()
+        self.screen = mss()  # 双屏需要
         self.monitor = self.screen.monitors[0]
         self.singlemonitor = self.screen.monitors[1]
 
@@ -29,10 +29,11 @@ class MacInputComponent(InputComponent):
         pos[0] = pos[0] + self.monitor["left"]
         pos[1] = pos[1] + self.monitor["top"]
         theEvent = Quartz.CGEventCreateMouseEvent(
-            None, pressID[button], (pos[0], pos[1]), button - 1)
-        Quartz.CGEventPost(Quartz.kCGHIDEventTap, theEvent)
-        Quartz.CGEventSetType(theEvent, releaseID[button])
-        Quartz.CGEventPost(Quartz.kCGHIDEventTap, theEvent)
+            None, pressID[button], (pos[0], pos[1]), button - 1)  # 按下消息
+        Quartz.CGEventPost(Quartz.kCGHIDEventTap, theEvent)  # 发送消息
+        Quartz.CGEventSetType(theEvent, releaseID[button])  # 抬起消息
+        time.sleep(duration)
+        Quartz.CGEventPost(Quartz.kCGHIDEventTap, theEvent)  # 发送消息
 
     def swipe(self, p1, p2, duration=0.5, steps=5, fingers=1, button='left'):
         pressID = [None, Quartz.kCGEventLeftMouseDown,

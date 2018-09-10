@@ -18,6 +18,18 @@ SM_CYVIRTUALSCREEN = 79
 
 
 def _check_platform_win(uri, platform="windows"):
+    """
+    Check the uri and return a dictionary containing the various parameters contained in the uri.
+
+    Parameters:
+        uri - an URI where to connect to device, e.g. `mac:///`
+
+    Returns:
+        A dictionary containing the various parameters contained in the uri.
+
+    Raises:
+        RuntimeError - raise when the platform does not match the uri.
+    """
     params = parse_uri(uri)
     if params["platform"] != platform:
         raise RuntimeError("Platform error!")
@@ -45,6 +57,15 @@ def get_rect(window):
 
 
 def get_app(kwargs):
+    """
+    Get the application based on the given parameters, which is an application instance of pywinauto
+
+    Parameters:
+        kwargs - a dictionary
+
+    Returns:
+        An application instance of pywinauto
+    """
     if len(kwargs) == 0:
         return None
     if "handle" in kwargs:
@@ -53,6 +74,15 @@ def get_app(kwargs):
 
 
 def get_window(kwargs):
+    """
+    Get the window based on the given parameters, which is an window instance of pywinauto
+
+    Parameters:
+        kwargs - a dictionary
+
+    Returns:
+        A window instance of pywinauto
+    """
     handle = kwargs.get("handle")
     if handle:
         handle = int(handle)
@@ -64,6 +94,16 @@ def get_window(kwargs):
 
 
 def get_action_pos(window, pos):
+    """
+    Map coordinates to window coordinates
+
+    Parameters:
+        windows - the window
+        pos - the position
+
+    Returns:
+        A new position
+    """
     if window:
         rect = get_rect(window)
         pos = (int((pos[0] + rect.left) * DPIFACTOR), int((pos[1] + rect.top) * DPIFACTOR))

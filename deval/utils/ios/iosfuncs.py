@@ -43,6 +43,18 @@ def retry_session(func):
 
 
 def _check_platform_ios(uri, platform="ios"):
+    """
+    Check the uri and return a dictionary containing the various parameters contained in the uri.
+
+    Parameters:
+        uri - an URI where to connect to device, e.g. `ios:///`
+
+    Returns:
+        A dictionary containing the various parameters contained in the uri.
+
+    Raises:
+        RuntimeError - raise when the platform does not match the uri.
+    """
     params = parse_uri(uri)
     if params["platform"] != platform:
         raise RuntimeError("Platform error!")
@@ -53,6 +65,7 @@ def _check_platform_ios(uri, platform="ios"):
     return params
 
 
+# copy from airtest
 class IOSProxy(object):
     """ios client
         # befor this you have to run WebDriverAgent
