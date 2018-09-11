@@ -7,8 +7,9 @@ from deval.utils.linux.linuxfuncs import _check_platform_linux
 
 
 class LinuxRuntimeComponent(RuntimeComponent):
-    def __init__(self, uri, dev, name=None):
-        super(LinuxRuntimeComponent, self).__init__(uri, dev, name)
+
+    def __init__(self, name, dev, uri):
+        self.set_attribute(name, dev, uri)
 
     def shell(self, cmd):
         return subprocess.check_output(cmd, shell=True)

@@ -6,8 +6,9 @@ from deval.component.std.keyeventcomponent import KeyEventComponent
 
 
 class MacKeyEventComponent(KeyEventComponent):
-    def __init__(self, uri, dev, name=None):
-        super(MacKeyEventComponent, self).__init__(uri, dev, name)
+    
+    def __init__(self, name, dev, uri):
+        self.set_attribute(name, dev, uri)
         self.keyboard = Controller()
 
     def keyevent(self, keyname):

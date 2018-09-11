@@ -2,27 +2,22 @@
 
 import re
 from deval.component.std.runtimecomponent import RuntimeComponent
-from deval.utils.android.androidfuncs import AndroidProxy, _check_platform_android
+from deval.utils.android.androidfuncs import _check_platform_android
 from deval.utils.parse import parse_uri
 
 
 class AndroidRuntimeComponent(RuntimeComponent):
 
-    def __init__(self, uri, dev, name=None):
-        super(AndroidRuntimeComponent, self).__init__(uri, dev, name)
+    def __init__(self, name, dev, uri):
+        self.set_attribute(name, dev, uri)
 
-        try:
-            self.proxy = self.dev.androidproxy
-        except AttributeError:
-            self.dev.androidproxy = AndroidProxy(
-                **_check_platform_android(uri))
-            self.proxy = self.dev.androidproxy
+        self.adb = self.dev.adb
 
     def shell(self, cmd):
-        return self.proxy.adb.shell(cmd)
+        return self.adb.shell(cmd)
 
     def get_top_activity_name_and_pid(self):
-        dat = self.proxy.adb.shell('dumpsys activity top')
+        dat = self.adb.shell('dumpsys activity top')
         activityRE = re.compile(
             '\s*ACTIVITY ([A-Za-z0-9_.]+)/([A-Za-z0-9_.]+) \w+ pid=(\d+)')
         m = activityRE.search(dat)

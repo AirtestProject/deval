@@ -13,12 +13,12 @@ class MacDevice(BaseDevice):
 
     def __init__(self, uri):
         super(MacDevice, self).__init__(uri)
-        self.addComponent(MacInputComponent(uri, self))
-        self.addComponent(MacNetworkComponent(uri, self))
-        self.addComponent(MacKeyEventComponent(uri, self))
-        self.addComponent(MacRuntimeComponent(uri, self))
-        self.addComponent(MacScreenComponent(uri, self))
-        self.addComponent(MacAppComponent(uri, self))
+        self.addComponent(MacInputComponent("input", self, uri))
+        self.addComponent(MacNetworkComponent("network", self, uri))
+        self.addComponent(MacKeyEventComponent("keyevent", self, uri))
+        self.addComponent(MacRuntimeComponent("runtime", self, uri))
+        self.addComponent(MacScreenComponent("screen", self, uri))
+        self.addComponent(MacAppComponent("app", self, uri))
 
     @property
     def uuid(self):

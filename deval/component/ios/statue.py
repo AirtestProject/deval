@@ -7,8 +7,8 @@ from deval.utils.parse import parse_uri
 
 class IOSStatueComponent(Component):
 
-    def __init__(self, uri, dev, name="statue"):
-        super(IOSStatueComponent, self).__init__(uri, dev, name)
+    def __init__(self, name, dev, uri):
+        self.set_attribute(name, dev, uri)
 
         try:
             self.proxy = self.dev.iosproxy

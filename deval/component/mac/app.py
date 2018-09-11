@@ -5,8 +5,9 @@ from deval.component.std.appcomponent import AppComponent
 
 
 class MacAppComponent(AppComponent):
-    def __init__(self, uri, dev, name=None):
-        super(MacAppComponent, self).__init__(uri, dev, name)
+    
+    def __init__(self, name, dev, uri):
+        self.set_attribute(name, dev, uri)
 
     def start_app(self, path, **kwargs):
         """

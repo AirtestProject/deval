@@ -1,71 +1,65 @@
 # -*- coding: utf-8 -*-
 
 from deval.component.std.keyeventcomponent import KeyEventComponent
-from deval.utils.android.androidfuncs import AndroidProxy, _check_platform_android
+from deval.utils.android.androidfuncs import _check_platform_android
 from deval.utils.parse import parse_uri
+from deval.utils.android.recorder import Recorder
+from deval.utils.android.ime import YosemiteIme
 
 
 class AndroidYOSEMITEIMEKeyEventComponent(KeyEventComponent):
 
-    def __init__(self, uri, dev, name=None):
-        super(AndroidYOSEMITEIMEKeyEventComponent,
-              self).__init__(uri, dev, name)
+    def __init__(self, name, dev, uri):
+        self.set_attribute(name, dev, uri)
 
-        try:
-            self.proxy = self.dev.androidproxy
-        except AttributeError:
-            self.dev.androidproxy = AndroidProxy(
-                **_check_platform_android(uri))
-            self.proxy = self.dev.androidproxy
+        self.adb = self.dev.adb
+        self.recorder = Recorder(self.adb)
+        self.yosemite_ime = YosemiteIme(self.adb)
 
     def keyevent(self, keyname):
-        return self.proxy.adb.keyevent(keyname)
+        return self.adb.keyevent(keyname)
 
     def text(self, text, enter=True):
-        self.proxy.yosemite_ime.text(text)
+        self.yosemite_ime.text(text)
         # 游戏输入时，输入有效内容后点击Enter确认，如不需要，enter置为False即可。
         if enter:
-            self.proxy.adb.shell(["input", "keyevent", "ENTER"])
+            self.adb.shell(["input", "keyevent", "ENTER"])
 
     def wake(self):
-        self.proxy.adb.keyevent("HOME")
-        self.proxy.recorder.install_or_upgrade()  # 暂时Yosemite只用了ime
-        self.proxy.adb.shell(
+        self.adb.keyevent("HOME")
+        self.recorder.install_or_upgrade()  # 暂时Yosemite只用了ime
+        self.adb.shell(
             ['am', 'start', '-a', 'com.netease.nie.yosemite.ACTION_IDENTIFY'])
-        self.proxy.adb.keyevent("HOME")
+        self.adb.keyevent("HOME")
 
     def home(self):
-        self.proxy.adb.keyevent("HOME")
+        self.adb.keyevent("HOME")
 
 
 class AndroidADBIMEKeyEventComponent(KeyEventComponent):
 
-    def __init__(self, uri, dev, name=None):
-        super(AndroidADBIMEKeyEventComponent, self).__init__(uri, dev, name)
+    def __init__(self, name, dev, uri):
+        self.set_attribute(name, dev, uri)
 
-        try:
-            self.proxy = self.dev.androidproxy
-        except AttributeError:
-            self.dev.androidproxy = AndroidProxy(
-                **_check_platform_android(uri))
-            self.proxy = self.dev.androidproxy
+        self.adb = self.dev.adb
+        self.recorder = Recorder(self.adb)
 
     def keyevent(self, keyname):
-        return self.proxy.adb.keyevent(keyname)
+        return self.adb.keyevent(keyname)
 
     def text(self, text, enter=True):
-        self.proxy.adb.shell(["input", "text", text])
+        self.adb.shell(["input", "text", text])
 
         # 游戏输入时，输入有效内容后点击Enter确认，如不需要，enter置为False即可。
         if enter:
-            self.proxy.adb.shell(["input", "keyevent", "ENTER"])
+            self.adb.shell(["input", "keyevent", "ENTER"])
 
     def wake(self):
-        self.proxy.adb.keyevent("HOME")
-        self.proxy.recorder.install_or_upgrade()  # 暂时Yosemite只用了ime
-        self.proxy.adb.shell(
+        self.adb.keyevent("HOME")
+        self.recorder.install_or_upgrade()  # 暂时Yosemite只用了ime
+        self.adb.shell(
             ['am', 'start', '-a', 'com.netease.nie.yosemite.ACTION_IDENTIFY'])
-        self.proxy.adb.keyevent("HOME")
+        self.adb.keyevent("HOME")
 
     def home(self):
-        self.proxy.adb.keyevent("HOME")
+        self.adb.keyevent("HOME")

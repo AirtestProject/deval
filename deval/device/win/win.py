@@ -16,13 +16,14 @@ class WinDevice(BaseDevice):
         super(WinDevice, self).__init__(uri)
         self.app = get_app(_check_platform_win(uri))
         self.window = get_window(_check_platform_win(uri))
-        self.addComponent(WinNetworkComponent(uri, self))
-        self.addComponent(WinInputComponent(uri, self))
-        self.addComponent(WinKeyEventComponent(uri, self))
-        self.addComponent(WinRuntimeComponent(uri, self))
-        self.addComponent(WinScreenComponent(uri, self))
-        self.addComponent(WinAppComponent(uri, self))
+        self.handle = self.window.handle
+        self.addComponent(WinNetworkComponent("network", self, uri))
+        self.addComponent(WinInputComponent("input", self, uri))
+        self.addComponent(WinKeyEventComponent("keyevent", self, uri))
+        self.addComponent(WinRuntimeComponent("runtime", self, uri))
+        self.addComponent(WinScreenComponent("screen", self, uri))
+        self.addComponent(WinAppComponent("app", self, uri))
 
     @property
     def uuid(self):
-        return self.uri
+        return self.handle

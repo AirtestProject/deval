@@ -41,6 +41,8 @@ class BaseDevice(object):
         """
         if name in self.ComponentList:
             return self.ComponentList.get(name)
+        else:
+            raise RuntimeError("No such component!")
 
     def removeComponent(self, comName):
         """

@@ -7,8 +7,8 @@ from deval.utils.win.winfuncs import get_window, _check_platform_win
 
 class WinNetworkComponent(NetworkComponent):
 
-    def __init__(self, uri, dev, name=None):
-        super(WinNetworkComponent, self).__init__(uri, dev, name)
+    def __init__(self, name, dev, uri):
+        self.set_attribute(name, dev, uri)
         try:
             self.window = self.dev.window
         except AttributeError:

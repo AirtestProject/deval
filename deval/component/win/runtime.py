@@ -7,8 +7,9 @@ from deval.utils.win.winfuncs import _check_platform_win
 
 
 class WinRuntimeComponent(RuntimeComponent):
-    def __init__(self, uri, dev, name=None):
-        super(WinRuntimeComponent, self).__init__(uri, dev, name)
+    
+    def __init__(self, name, dev, uri):
+        self.set_attribute(name, dev, uri)
         try:
             self.window = self.dev.window
         except AttributeError:

@@ -4,11 +4,6 @@ from deval.component.std.component import Component
 
 
 class AppComponent(Component):
-    def __init__(self, uri, dev=None, name="app"):
-        if name is None:
-            super(AppComponent, self).__init__(uri, dev, "app")
-        else:
-            super(AppComponent, self).__init__(uri, dev, name)
 
     def start_app(self, package, activity=None):
         """
@@ -22,24 +17,6 @@ class AppComponent(Component):
     def stop_app(self, package):
         """
         Stop a program based on the package name or just close the current app.
-
-        Parameters:
-            package - the path or the package name.
-        """
-        raise NotImplementedError
-
-    def install(self, filepath):
-        """
-        Install a program based on the package name.
-
-        Parameters:
-            filepath - the path or the package name.
-        """
-        raise NotImplementedError
-
-    def uninstall(self, package):
-        """
-        Uninstall a program based on the package name.
 
         Parameters:
             package - the path or the package name.
@@ -131,4 +108,10 @@ class AppComponent(Component):
         Returns:
             A string represent the name
         """
+        raise NotImplementedError
+
+    def path_app(self, package):
+        raise NotImplementedError
+
+    def check_app(self, package):
         raise NotImplementedError

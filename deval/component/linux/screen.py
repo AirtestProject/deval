@@ -9,8 +9,8 @@ from deval.utils.cv import pil_2_cv2
 
 class LinuxScreenComponent(ScreenComponent):
 
-    def __init__(self, uri, dev, name=None):
-        super(LinuxScreenComponent, self).__init__(uri, dev, name)
+    def __init__(self, name, dev, uri):
+        self.set_attribute(name, dev, uri)
 
     def snapshot(self, filename="tmp.png"):
         w, h = self.get_current_resolution()

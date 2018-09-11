@@ -7,17 +7,17 @@ from deval.utils.parse import parse_uri
 
 class IOSAppComponent(AppComponent):
 
-    def __init__(self, uri, dev, name=None):
-        super(IOSAppComponent, self).__init__(uri, dev, name)
+    def __init__(self, name, dev, uri):
+        self.set_attribute(name, dev, uri)
 
         try:
-            self.proxy = self.dev.iosproxy
+            self.driver = self.dev.iosproxy.driver
         except AttributeError:
             self.dev.iosproxy = IOSProxy(**_check_platform_ios(uri))
-            self.proxy = self.dev.iosproxy
+            self.driver = self.dev.iosproxy.driver
 
     def start_app(self, package, activity=None):
-        self.proxy.driver.session(package)
+        self.driver.session(package)
 
     def stop_app(self, package):
-        self.proxy.driver.session().close()
+        self.driver.session().close()

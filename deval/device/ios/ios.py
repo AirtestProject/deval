@@ -18,13 +18,18 @@ class IOSDevice(BaseDevice):
         kw = _check_platform_ios(uri)
         self.iosproxy = IOSProxy(**kw)
 
-        self.addComponent(IOSAppComponent(uri, self))
-        self.addComponent(IOSNetworkComponent(uri, self))
-        self.addComponent(IOSInputComponent(uri, self))
-        self.addComponent(IOSKeyEventComponent(uri, self))
-        self.addComponent(IOSScreenComponent(uri, self))
-        self.addComponent(IOSStatueComponent(uri, self))
+        self.addComponent(IOSAppComponent("app", self, uri))
+        self.addComponent(IOSNetworkComponent("network", self, uri))
+        self.addComponent(IOSInputComponent("input", self, uri))
+        self.addComponent(IOSKeyEventComponent("keyevent", self, uri))
+        self.addComponent(IOSScreenComponent("screen", self, uri))
+        self.addComponent(IOSStatueComponent("statue", self, uri))
 
     @property
     def uuid(self):
-        return self.uri
+        try:
+            return self.iosproxy.addr
+        except AttributeError:
+            self.iosproxy = IOSProxy(
+                **_check_platform_ios(self.uri))
+            return self.iosproxy.addr

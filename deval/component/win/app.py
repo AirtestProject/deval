@@ -7,8 +7,9 @@ from deval.utils.win.winfuncs import _check_platform_win
 
 
 class WinAppComponent(AppComponent):
-    def __init__(self, uri, dev, name=None):
-        super(WinAppComponent, self).__init__(uri, dev, name)
+    
+    def __init__(self, name, dev, uri):
+        self.set_attribute(name, dev, uri)
         try:
             self.app = self.dev.app
             self.window = self.dev.window

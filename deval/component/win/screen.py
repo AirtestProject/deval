@@ -9,8 +9,8 @@ from deval.utils.cv import crop_image, imwrite
 
 class WinScreenComponent(ScreenComponent):
 
-    def __init__(self, uri, dev, name=None):
-        super(WinScreenComponent, self).__init__(uri, dev, name)
+    def __init__(self, name, dev, uri):
+        self.set_attribute(name, dev, uri)
         try:
             self.app = self.dev.app
             self.window = self.dev.window

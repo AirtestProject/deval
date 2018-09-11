@@ -8,8 +8,8 @@ from deval.utils.parse import parse_uri
 
 class IOSScreenComponent(ScreenComponent):
 
-    def __init__(self, uri, dev, name=None):
-        super(IOSScreenComponent, self).__init__(uri, dev, name)
+    def __init__(self, name, dev, uri):
+        self.set_attribute(name, dev, uri)
 
         try:
             self.proxy = self.dev.iosproxy

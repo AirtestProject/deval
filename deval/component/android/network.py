@@ -1,21 +1,16 @@
 # -*- coding: utf-8 -*-
 
 from deval.component.std.networkcomponent import NetworkComponent
-from deval.utils.android.androidfuncs import AndroidProxy, _check_platform_android
+from deval.utils.android.androidfuncs import _check_platform_android
 from deval.utils.parse import parse_uri
 
 
 class AndroidNetworkComponent(NetworkComponent):
 
-    def __init__(self, uri, dev, name=None):
-        super(AndroidNetworkComponent, self).__init__(uri, dev, name)
+    def __init__(self, name, dev, uri):
+        self.set_attribute(name, dev, uri)
 
-        try:
-            self.proxy = self.dev.androidproxy
-        except AttributeError:
-            self.dev.androidproxy = AndroidProxy(
-                **_check_platform_android(uri))
-            self.proxy = self.dev.androidproxy
+        self.adb = self.dev.adb
 
     def get_ip_address(self):
-        return self.proxy.adb.get_ip_address()
+        return self.adb.get_ip_address()

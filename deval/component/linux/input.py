@@ -8,8 +8,9 @@ from pynput.mouse import Controller, Button
 
 
 class LinuxInputComponent(InputComponent):
-    def __init__(self, uri, dev, name=None):
-        super(LinuxInputComponent, self).__init__(uri, dev, name)
+
+    def __init__(self, name, dev, uri):
+        self.set_attribute(name, dev, uri)
         self.screen = mss()
         self.monitor = self.screen.monitors[0]
         self.singlemonitor = self.screen.monitors[1]
