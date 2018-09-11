@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from deval.component.std.keyeventcomponent import KeyEventComponent
+from deval.component.std.keyevent import KeyEventComponent
 from deval.utils.android.androidfuncs import _check_platform_android
 from deval.utils.parse import parse_uri
 from deval.utils.android.recorder import Recorder

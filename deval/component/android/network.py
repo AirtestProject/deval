@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from deval.component.std.networkcomponent import NetworkComponent
+from deval.component.std.network import NetworkComponent
 from deval.utils.android.androidfuncs import _check_platform_android
 from deval.utils.parse import parse_uri
 

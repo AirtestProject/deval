@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from deval.component.std.networkcomponent import NetworkComponent
+from deval.component.std.network import NetworkComponent
 from deval.utils.ios.iosfuncs import IOSProxy, _check_platform_ios
 from deval.utils.parse import parse_uri
 

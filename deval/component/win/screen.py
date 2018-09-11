@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from deval.component.std.screencomponent import ScreenComponent
+from deval.component.std.screen import ScreenComponent
 from deval.utils.win.winfuncs import get_app, get_rect, get_window
 from deval.utils.win.winfuncs import Application, screenshot
 from deval.utils.win.winfuncs import _check_platform_win

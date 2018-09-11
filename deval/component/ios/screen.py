@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from deval.utils.cv import string_2_img, rotate, imwrite
-from deval.component.std.screencomponent import ScreenComponent
+from deval.component.std.screen import ScreenComponent
 from deval.utils.ios.iosfuncs import IOSProxy, _check_platform_ios, CAP_METHOD, LANDSCAPE, LANDSCAPE_RIGHT
 from deval.utils.parse import parse_uri
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import time
-from deval.component.std.inputcomponent import InputComponent
+from deval.component.std.input import InputComponent
 from deval.utils.android.androidfuncs import _check_platform_android
 from deval.utils.parse import parse_uri
 from deval.utils.android.rotation import XYTransformer

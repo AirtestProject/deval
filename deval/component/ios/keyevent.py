@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from deval.component.std.keyeventcomponent import KeyEventComponent
+from deval.component.std.keyevent import KeyEventComponent
 from deval.utils.ios.iosfuncs import IOSProxy, _check_platform_ios, retry_session
 from deval.utils.parse import parse_uri
 

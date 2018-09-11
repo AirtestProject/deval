@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from deval.component.std.appcomponent import AppComponent
+from deval.component.std.app import AppComponent
 from deval.utils.ios.iosfuncs import IOSProxy, _check_platform_ios
 from deval.utils.parse import parse_uri
 

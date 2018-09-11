@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
-from deval.component.std.appcomponent import AppComponent
+from deval.component.std.app import AppComponent
 
 
 class MacAppComponent(AppComponent):

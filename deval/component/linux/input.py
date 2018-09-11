@@ -2,7 +2,7 @@
 
 import time
 from pywinauto import mouse
-from deval.component.std.inputcomponent import InputComponent
+from deval.component.std.input import InputComponent
 from mss import mss
 from pynput.mouse import Controller, Button
 

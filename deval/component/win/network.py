@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import socket
-from deval.component.std.networkcomponent import NetworkComponent
+from deval.component.std.network import NetworkComponent
 from deval.utils.win.winfuncs import get_window, _check_platform_win
 
 

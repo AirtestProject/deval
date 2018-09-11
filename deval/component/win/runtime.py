@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import subprocess
-from deval.component.std.runtimecomponent import RuntimeComponent
+from deval.component.std.runtime import RuntimeComponent
 from deval.utils.win.winfuncs import get_window, Application
 from deval.utils.win.winfuncs import _check_platform_win
 

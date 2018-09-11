@@ -2,7 +2,7 @@
 
 import time
 from pywinauto import keyboard
-from deval.component.std.keyeventcomponent import KeyEventComponent
+from deval.component.std.keyevent import KeyEventComponent
 from pynput.keyboard import Controller
 
 

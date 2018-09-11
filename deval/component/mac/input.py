@@ -3,7 +3,7 @@
 import Quartz
 import time
 from mss import mss
-from deval.component.std.inputcomponent import InputComponent
+from deval.component.std.input import InputComponent
 
 
 class MacInputComponent(InputComponent):

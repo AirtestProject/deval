@@ -2,7 +2,7 @@
 
 import time
 from pynput.keyboard import Controller
-from deval.component.std.keyeventcomponent import KeyEventComponent
+from deval.component.std.keyevent import KeyEventComponent
 
 
 class MacKeyEventComponent(KeyEventComponent):

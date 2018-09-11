@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import re
-from deval.component.std.runtimecomponent import RuntimeComponent
+from deval.component.std.runtime import RuntimeComponent
 from deval.utils.android.androidfuncs import _check_platform_android
 from deval.utils.parse import parse_uri
 

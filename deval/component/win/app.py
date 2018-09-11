@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from deval.component.std.appcomponent import AppComponent
+from deval.component.std.app import AppComponent
 from deval.utils.win.winfuncs import get_app
 from deval.utils.win.winfuncs import Application, get_window
 from deval.utils.win.winfuncs import _check_platform_win

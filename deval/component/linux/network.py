@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import socket
-from deval.component.std.networkcomponent import NetworkComponent
+from deval.component.std.network import NetworkComponent
 
 
 class LinuxNetworkComponent(NetworkComponent):

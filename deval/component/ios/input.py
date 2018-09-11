@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
-from deval.component.std.inputcomponent import InputComponent
+from deval.component.std.input import InputComponent
 from deval.utils.ios.iosfuncs import IOSProxy, _check_platform_ios, retry_session
 from deval.utils.parse import parse_uri
 

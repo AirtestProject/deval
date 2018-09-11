@@ -2,7 +2,7 @@
 
 from Xlib import display, X
 from PIL import Image
-from deval.component.std.screencomponent import ScreenComponent
+from deval.component.std.screen import ScreenComponent
 from deval.utils.cv import imwrite
 from deval.utils.cv import pil_2_cv2
 

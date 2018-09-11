@@ -4,7 +4,7 @@ import time
 from mss import mss
 from pywinauto import mouse
 from pynput.mouse import Controller, Button
-from deval.component.std.inputcomponent import InputComponent
+from deval.component.std.input import InputComponent
 from deval.utils.win.winfuncs import get_app, get_rect, get_window, set_foreground_window
 from deval.utils.win.winfuncs import Application, get_action_pos
 from deval.utils.win.winfuncs import _check_platform_win

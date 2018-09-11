@@ -2,7 +2,7 @@
 
 from copy import copy
 from deval.utils.cv import string_2_img, rotate, imwrite
-from deval.component.std.screencomponent import ScreenComponent
+from deval.component.std.screen import ScreenComponent
 from deval.utils.android.androidfuncs import _check_platform_android
 from deval.utils.parse import parse_uri
 from deval.utils.android.rotation import RotationWatcher
