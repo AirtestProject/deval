@@ -8,13 +8,13 @@ from deval.utils.parse import parse_uri
 class IOSKeyEventComponent(KeyEventComponent):
 
     def __init__(self, name, dev, uri):
-        self.set_attribute(name, dev, uri)
-
+        self.name = name
+        self.device = dev
         try:
-            self.proxy = self.dev.iosproxy
+            self.proxy = self.device.iosproxy
         except AttributeError:
-            self.dev.iosproxy = IOSProxy(**_check_platform_ios(uri))
-            self.proxy = self.dev.iosproxy
+            self.device.iosproxy = IOSProxy(**_check_platform_ios(uri))
+            self.proxy = self.device.iosproxy
 
     def keyevent(self, keys):
         """just use as home event"""
@@ -31,3 +31,11 @@ class IOSKeyEventComponent(KeyEventComponent):
 
     def home(self):
         return self.proxy.driver.home()
+
+    @property
+    def name(self):
+        return self._name
+    
+    @name.setter
+    def name(self, value):
+        self._name = value

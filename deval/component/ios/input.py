@@ -9,13 +9,13 @@ from deval.utils.parse import parse_uri
 class IOSInputComponent(InputComponent):
 
     def __init__(self, name, dev, uri):
-        self.set_attribute(name, dev, uri)
-
+        self.name = name
+        self.device = dev
         try:
             self.proxy = self.dev.iosproxy
         except AttributeError:
-            self.dev.iosproxy = IOSProxy(**_check_platform_ios(uri))
-            self.proxy = self.dev.iosproxy
+            self.device.iosproxy = IOSProxy(**_check_platform_ios(uri))
+            self.proxy = self.device.iosproxy
 
     @retry_session
     def click(self, pos, duration=0.05, button='left'):
@@ -42,3 +42,11 @@ class IOSInputComponent(InputComponent):
         x, y = pos[0] * self.proxy._touch_factor, pos[1] * \
             self.proxy._touch_factor
         self.proxy.session.double_tap(x, y)
+        
+    @property
+    def name(self):
+        return self._name
+    
+    @name.setter
+    def name(self, value):
+        self._name = value

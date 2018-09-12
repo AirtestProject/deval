@@ -9,8 +9,8 @@ from pynput.mouse import Controller, Button
 
 class LinuxInputComponent(InputComponent):
 
-    def __init__(self, name, dev, uri):
-        self.set_attribute(name, dev, uri)
+    def __init__(self, name):
+        self.name = name
         self.screen = mss()
         self.monitor = self.screen.monitors[0]
         self.singlemonitor = self.screen.monitors[1]
@@ -67,3 +67,11 @@ class LinuxInputComponent(InputComponent):
         pos[0] = pos[0] + self.monitor["left"]
         pos[1] = pos[1] + self.monitor["top"]
         mouse.double_click(button=button, coords=pos)
+
+    @property
+    def name(self):
+        return self._name
+    
+    @name.setter
+    def name(self, value):
+        self._name = value

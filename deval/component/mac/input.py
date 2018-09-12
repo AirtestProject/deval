@@ -8,8 +8,8 @@ from deval.component.std.input import InputComponent
 
 class MacInputComponent(InputComponent):
     
-    def __init__(self, name, dev, uri):
-        self.set_attribute(name, dev, uri)
+    def __init__(self, name):
+        self.name = name
         self.screen = mss()  # 双屏需要
         self.monitor = self.screen.monitors[0]
         self.singlemonitor = self.screen.monitors[1]
@@ -177,3 +177,11 @@ class MacInputComponent(InputComponent):
                 scroll_event(z_move=1, n=depth)
             else:  # Scroll "in" if negative
                 scroll_event(z_move=-1, n=abs(depth))
+
+    @property
+    def name(self):
+        return self._name
+    
+    @name.setter
+    def name(self, value):
+        self._name = value

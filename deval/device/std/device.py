@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
-class BaseDevice(object):
+class DeviceBase(object):
 
     def __init__(self, uri):
         """
@@ -11,9 +11,9 @@ class BaseDevice(object):
             uri - the uri to uniquely identify a device
         """
         self.uri = uri
-        self.ComponentList = dict()
+        self.component_list = dict()
 
-    def addComponent(self, com):
+    def add_component(self, com):
         """
         Add the component into the device
 
@@ -23,13 +23,13 @@ class BaseDevice(object):
         Raises:
             RuntimeError - raise when the component is Duplicated
         """
-        if com.name in self.ComponentList:
+        if com.name in self.component_list:
             raise RuntimeError(
                 "Duplicate component, please check component name")
         else:
-            self.ComponentList[com.name] = com
+            self.component_list[com.name] = com
 
-    def getComponent(self, name):
+    def get_component(self, name):
         """
         Get the component according to the given name
 
@@ -39,12 +39,12 @@ class BaseDevice(object):
         Returns:
             The component, return None if not found.
         """
-        if name in self.ComponentList:
-            return self.ComponentList.get(name)
+        if name in self.component_list:
+            return self.component_list.get(name)
         else:
             raise RuntimeError("No such component!")
 
-    def removeComponent(self, comName):
+    def remove_component(self, comName):
         """
         Remove the component according to the given name
 
@@ -54,34 +54,34 @@ class BaseDevice(object):
         Returns:
             Returns True if successful, otherwise returns False
         """
-        if comName in self.ComponentList:
-            self.ComponentList.pop(comName)
+        if comName in self.component_list:
+            self.component_list.pop(comName)
             return True
         return False
 
     @property
-    def inputComponent(self):
-        return self.getComponent("input")
+    def input_component(self):
+        return self.get_component("input")
 
     @property
-    def keyeventComponent(self):
-        return self.getComponent("keyevent")
+    def keyevent_component(self):
+        return self.get_component("keyevent")
 
     @property
-    def runtimeComponent(self):
-        return self.getComponent("runtime")
+    def runtime_component(self):
+        return self.get_component("runtime")
 
     @property
-    def appComponent(self):
-        return self.getComponent("app")
+    def app_component(self):
+        return self.get_component("app")
 
     @property
-    def screenComponent(self):
-        return self.getComponent("screen")
+    def screen_component(self):
+        return self.get_component("screen")
 
     @property
-    def networkComponent(self):
-        return self.getComponent("network")
+    def network_component(self):
+        return self.get_component("network")
 
     # some useful apis
 
@@ -95,7 +95,7 @@ class BaseDevice(object):
             duration - the duration of the operation. Supported devices: All
             button - the button of the operation. Supported devices: Windows, Linux, Mac
         """
-        return self.inputComponent.click(pos, duration, button)
+        return self.input_component.click(pos, duration, button)
 
     def rclick(self, pos, duration=0.05, button='right'):
         """
@@ -106,7 +106,7 @@ class BaseDevice(object):
             duration - the duration of the operation. Supported devices: Windows, Linux, Mac
             button - the button of the operation. Supported devices: Windows, Linux, Mac
         """
-        return self.inputComponent.click(pos, duration, button)
+        return self.input_component.click(pos, duration, button)
 
     def long_click(self, pos, duration=2, button='left'):
         """
@@ -117,7 +117,7 @@ class BaseDevice(object):
             duration - the duration of the operation. Supported devices: All
             button - the button of the operation. Supported devices: Windows, Linux, Mac
         """
-        return self.inputComponent.click(pos, duration, button)
+        return self.input_component.click(pos, duration, button)
 
     def tap(self, pos, duration=0.05):
         """
@@ -143,7 +143,7 @@ class BaseDevice(object):
             fingers - the number of fingers to perform the operation. Supported devices: Android
             button - the button of the operation. Supported devices: Windows, Linux, Mac
         """
-        return self.inputComponent.swipe(p1, p2, duration, steps, fingers, button)
+        return self.input_component.swipe(p1, p2, duration, steps, fingers, button)
 
     def double_tap(self, pos, button='left'):
         """
@@ -153,7 +153,7 @@ class BaseDevice(object):
             pos - a list refer to the double click position. Supported devices: All
             button - the button of the operation. Supported devices: Windows, Linux, Mac
         """
-        return self.inputComponent.double_tap(pos, button)
+        return self.input_component.double_tap(pos, button)
 
     def scroll(self, pos, direction="vertical", duration=0.5, steps=5):
         """
@@ -165,7 +165,7 @@ class BaseDevice(object):
             duration - the duration of the operation. Supported devices: Windows, Linux, Mac
             steps - the number of times of the operation. Supported devices: Windows, Linux, Mac
         """
-        return self.inputComponent.scroll(pos, direction, duration, steps)
+        return self.input_component.scroll(pos, direction, duration, steps)
 
     def keyevent(self, keyname):
         """
@@ -175,7 +175,7 @@ class BaseDevice(object):
         Parameters:
             keyname - a string refer to the keys. Supported devices: All
         """
-        return self.keyeventComponent.keyevent(keyname)
+        return self.keyevent_component.keyevent(keyname)
 
     def text(self, text, enter=True):
         """
@@ -186,7 +186,7 @@ class BaseDevice(object):
             text - a string refer to the text. Supported devices: All
             enter - Whether to enter the Enter key. Supported devices: Android, IOS
         """
-        return self.keyeventComponent.text(text, enter)
+        return self.keyevent_component.text(text, enter)
 
     def shell(self, cmd):
         """
@@ -195,10 +195,10 @@ class BaseDevice(object):
         Parameters:
             cmd - the command. Supported devices: Android, Windows, Linux, Mac
         """
-        return self.runtimeComponent.shell(cmd)
+        return self.runtime_component.shell(cmd)
 
     def start_app(self, package, activity=None):
-        return self.appComponent.start_app(package, activity=None)
+        return self.app_component.start(package, activity=None)
 
     def stop_app(self, package=None):
         """
@@ -207,7 +207,7 @@ class BaseDevice(object):
         Parameters:
             package - the path or the package name. Supported devices: Android, Windows, IOS
         """
-        return self.appComponent.stop_app(package)
+        return self.app_component.stop(package)
 
     def snapshot(self, filename="tmp.jpg"):
         """
@@ -216,10 +216,10 @@ class BaseDevice(object):
         Parameters:
             filename - the path to save the image. Supported devices: All
         """
-        return self.screenComponent.snapshot(filename)
+        return self.screen_component.snapshot(filename)
 
     def get_ip_address(self):
         """
         Get the current device IP address
         """
-        return self.networkComponent.get_ip_address()
+        return self.network_component.get_ip_address()

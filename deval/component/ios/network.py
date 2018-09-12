@@ -8,13 +8,21 @@ from deval.utils.parse import parse_uri
 class IOSNetworkComponent(NetworkComponent):
 
     def __init__(self, name, dev, uri):
-        self.set_attribute(name, dev, uri)
-
+        self.name = name
+        self.device = dev
         try:
-            self.proxy = self.dev.iosproxy
+            self.proxy = self.device.iosproxy
         except AttributeError:
-            self.dev.iosproxy = IOSProxy(**_check_platform_ios(uri))
-            self.proxy = self.dev.iosproxy
+            self.device.iosproxy = IOSProxy(**_check_platform_ios(uri))
+            self.proxy = self.device.iosproxy
 
     def get_ip_address(self):
         return self.proxy.driver.status()['ios']['ip']
+        
+    @property
+    def name(self):
+        return self._name
+    
+    @name.setter
+    def name(self, value):
+        self._name = value

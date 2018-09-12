@@ -9,8 +9,8 @@ from deval.utils.cv import pil_2_cv2
 
 class LinuxScreenComponent(ScreenComponent):
 
-    def __init__(self, name, dev, uri):
-        self.set_attribute(name, dev, uri)
+    def __init__(self, name):
+        self.name = name
 
     def snapshot(self, filename="tmp.png"):
         w, h = self.get_current_resolution()
@@ -28,3 +28,11 @@ class LinuxScreenComponent(ScreenComponent):
         screen = d.screen()
         w, h = (screen["width_in_pixels"], screen["height_in_pixels"])
         return w, h
+
+    @property
+    def name(self):
+        return self._name
+    
+    @name.setter
+    def name(self, value):
+        self._name = value

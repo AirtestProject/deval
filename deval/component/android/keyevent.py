@@ -9,10 +9,9 @@ from deval.utils.android.ime import YosemiteIme
 
 class AndroidYOSEMITEIMEKeyEventComponent(KeyEventComponent):
 
-    def __init__(self, name, dev, uri):
-        self.set_attribute(name, dev, uri)
-
-        self.adb = self.dev.adb
+    def __init__(self, name, dev):
+        self.name = name
+        self.adb = dev.adb
         self.recorder = Recorder(self.adb)
         self.yosemite_ime = YosemiteIme(self.adb)
 
@@ -35,13 +34,20 @@ class AndroidYOSEMITEIMEKeyEventComponent(KeyEventComponent):
     def home(self):
         self.adb.keyevent("HOME")
 
+    @property
+    def name(self):
+        return self._name
+    
+    @name.setter
+    def name(self, value):
+        self._name = value
+
 
 class AndroidADBIMEKeyEventComponent(KeyEventComponent):
 
-    def __init__(self, name, dev, uri):
-        self.set_attribute(name, dev, uri)
-
-        self.adb = self.dev.adb
+    def __init__(self, name, dev):
+        self.name = name
+        self.adb = dev.adb
         self.recorder = Recorder(self.adb)
 
     def keyevent(self, keyname):
@@ -63,3 +69,11 @@ class AndroidADBIMEKeyEventComponent(KeyEventComponent):
 
     def home(self):
         self.adb.keyevent("HOME")
+
+    @property
+    def name(self):
+        return self._name
+    
+    @name.setter
+    def name(self, value):
+        self._name = value

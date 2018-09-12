@@ -10,11 +10,11 @@ from deval.utils.android.minitouch import Minitouch
 
 class AndroidMiniTouchInputComponent(InputComponent):
 
-    def __init__(self, name, dev, uri):
-        self.set_attribute(name, dev, uri)
-
-        self.adb = self.dev.adb
-        self.minitouch = Minitouch(self.adb, ori_function=self.dev.screenComponent.get_display_info)
+    def __init__(self, name, dev):
+        self.name = name
+        self.device = dev
+        self.adb = self.device.adb
+        self.minitouch = Minitouch(self.device)
 
     def click(self, pos, duration=0.05, button='left'):
         pos = self._touch_point_by_orientation(pos)
@@ -52,19 +52,26 @@ class AndroidMiniTouchInputComponent(InputComponent):
         x, y = tuple_xy
         x, y = XYTransformer.up_2_ori(
             (x, y),
-            (self.dev.screenComponent.display_info["width"],
-             self.dev.screenComponent.display_info["height"]),
-            self.dev.screenComponent.display_info["orientation"]
+            (self.device.screen_component.display_info["width"],
+             self.device.screen_component.display_info["height"]),
+            self.device.screen_component.display_info["orientation"]
         )
         return x, y
+
+    @property
+    def name(self):
+        return self._name
+    
+    @name.setter
+    def name(self, value):
+        self._name = value
 
 
 class AndroidADBTouchInputComponent(InputComponent):
 
-    def __init__(self, name, dev, uri):
-        self.set_attribute(name, dev, uri)
-
-        self.adb = self.dev.adb
+    def __init__(self, name, dev):
+        self.name = name
+        self.adb = dev.adb
 
     def click(self, pos, duration=0.05, button='left'):
         self.adb.touch(pos)
@@ -80,3 +87,11 @@ class AndroidADBTouchInputComponent(InputComponent):
 
     def is_keyboard_shown(self):
         return self.adb.is_keyboard_shown()
+
+    @property
+    def name(self):
+        return self._name
+    
+    @name.setter
+    def name(self, value):
+        self._name = value

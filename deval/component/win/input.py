@@ -13,16 +13,18 @@ from deval.utils.win.winfuncs import _check_platform_win
 class WinInputComponent(InputComponent):
     
     def __init__(self, name, dev, uri):
-        self.set_attribute(name, dev, uri)
+        self.name = name
+        self.uri = uri
+        self.device = dev
 
         try:
-            self.app = self.dev.app
-            self.window = self.dev.window
+            self.app = self.device.app
+            self.window = self.device.window
         except AttributeError:
-            self.dev.app = get_app(_check_platform_win(self.uri))
-            self.dev.window = get_window(_check_platform_win(self.uri))
-            self.app = self.dev.app
-            self.window = self.dev.window
+            self.device.app = get_app(_check_platform_win(self.uri))
+            self.device.window = get_window(_check_platform_win(self.uri))
+            self.app = self.device.app
+            self.window = self.device.window
         self.screen = mss()
         self.monitor = self.screen.monitors[0]  # 双屏的时候，self.monitor为整个双屏
         # 双屏的时候，self.singlemonitor
@@ -126,3 +128,12 @@ class WinInputComponent(InputComponent):
             for i in range(0, abs(steps)):
                 time.sleep(interval)
                 mouse.scroll(coords=coords, wheel_dist=-1)
+
+    @property
+    def name(self):
+        return self._name
+    
+    @name.setter
+    def name(self, value):
+        self._name = value
+        

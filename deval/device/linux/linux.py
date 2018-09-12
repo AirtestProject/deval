@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from deval.device.std.device import BaseDevice
+from deval.device.std.device import DeviceBase
 from deval.component.linux.input import LinuxInputComponent
 from deval.component.linux.network import LinuxNetworkComponent
 from deval.component.linux.keyevent import LinuxKeyEventComponent
@@ -8,15 +8,15 @@ from deval.component.linux.runtime import LinuxRuntimeComponent
 from deval.component.linux.screen import LinuxScreenComponent
 
 
-class LinuxDevice(BaseDevice):
+class LinuxDevice(DeviceBase):
 
     def __init__(self, uri):
         super(LinuxDevice, self).__init__(uri)
-        self.addComponent(LinuxInputComponent("input", self, uri))
-        self.addComponent(LinuxNetworkComponent("network", self, uri))
-        self.addComponent(LinuxKeyEventComponent("keyevent", self, uri))
-        self.addComponent(LinuxRuntimeComponent("runtime", self, uri))
-        self.addComponent(LinuxScreenComponent("screen", self, uri))
+        self.add_component(LinuxInputComponent("input"))
+        self.add_component(LinuxNetworkComponent("network"))
+        self.add_component(LinuxKeyEventComponent("keyevent"))
+        self.add_component(LinuxRuntimeComponent("runtime"))
+        self.add_component(LinuxScreenComponent("screen"))
         
     @property
     def uuid(self):

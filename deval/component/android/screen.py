@@ -12,10 +12,9 @@ from deval.utils.android.javacap import Javacap
 
 class AndroidMiniCapStreamScreenComponent(ScreenComponent):
 
-    def __init__(self, name, dev, uri):
-        self.set_attribute(name, dev, uri)
-
-        self.adb = self.dev.adb
+    def __init__(self, name, dev):
+        self.name = name
+        self.adb = dev.adb
         self.rotation_watcher = RotationWatcher(self.adb)
         self.minicap = Minicap(self.adb)
         self._display_info = {}
@@ -100,13 +99,20 @@ class AndroidMiniCapStreamScreenComponent(ScreenComponent):
         self.rotation_watcher.reg_callback(lambda x: setattr(self, "_current_orientation", x))
         self.rotation_watcher.reg_callback(lambda x: self.minicap.update_rotation(x * 90))
 
+    @property
+    def name(self):
+        return self._name
+    
+    @name.setter
+    def name(self, value):
+        self._name = value
+
 
 class AndroidJAVACapScreenComponent(ScreenComponent):
 
-    def __init__(self, name, dev, uri):
-        self.set_attribute(name, dev, uri)
-
-        self.adb = self.dev.adb
+    def __init__(self, name, dev):
+        self.name = name
+        self.adb = dev.adb
         self.javacap = Javacap(self.adb)
         self._display_info = {}
         self._current_orientation = None
@@ -156,13 +162,20 @@ class AndroidJAVACapScreenComponent(ScreenComponent):
     def _register_rotation_watcher(self):
         self.rotation_watcher.reg_callback(lambda x: setattr(self, "_current_orientation", x))
 
+    @property
+    def name(self):
+        return self._name
+    
+    @name.setter
+    def name(self, value):
+        self._name = value
+
 
 class AndroidMiniCapScreenComponent(ScreenComponent):
 
-    def __init__(self, name, dev, uri):
-        self.set_attribute(name, dev, uri)
-
-        self.adb = self.dev.adb
+    def __init__(self, name, dev):
+        self.name = name
+        self.adb = dev.adb
         self.rotation_watcher = RotationWatcher(self.adb)
         self.minicap = Minicap(self.adb)
         self._display_info = {}
@@ -223,13 +236,20 @@ class AndroidMiniCapScreenComponent(ScreenComponent):
         self.rotation_watcher.reg_callback(lambda x: setattr(self, "_current_orientation", x))
         self.rotation_watcher.reg_callback(lambda x: self.minicap.update_rotation(x * 90))
 
+    @property
+    def name(self):
+        return self._name
+    
+    @name.setter
+    def name(self, value):
+        self._name = value
+
 
 class AndroidADBScreenComponent(ScreenComponent):
 
-    def __init__(self, name, dev, uri):
-        self.set_attribute(name, dev, uri)
-
-        self.adb = self.dev.adb
+    def __init__(self, name, dev):
+        self.name = name
+        self.adb = dev.adb
         self.rotation_watcher = RotationWatcher(self.adb)
         self._display_info = {}
         self._current_orientation = None
@@ -282,3 +302,11 @@ class AndroidADBScreenComponent(ScreenComponent):
 
     def _register_rotation_watcher(self):
         self.rotation_watcher.reg_callback(lambda x: setattr(self, "_current_orientation", x))
+
+    @property
+    def name(self):
+        return self._name
+    
+    @name.setter
+    def name(self, value):
+        self._name = value

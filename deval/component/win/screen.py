@@ -10,15 +10,17 @@ from deval.utils.cv import crop_image, imwrite
 class WinScreenComponent(ScreenComponent):
 
     def __init__(self, name, dev, uri):
-        self.set_attribute(name, dev, uri)
+        self.name = name
+        self.uri = uri
+        self.device = dev
         try:
             self.app = self.dev.app
             self.window = self.dev.window
         except AttributeError:
-            self.dev.app = get_app(_check_platform_win(self.uri))
-            self.dev.window = get_window(_check_platform_win(self.uri))
-            self.app = self.dev.app
-            self.window = self.dev.window
+            self.device.app = get_app(_check_platform_win(self.uri))
+            self.device.window = get_window(_check_platform_win(self.uri))
+            self.app = self.device.app
+            self.window = self.device.window
         self.handle = None
         h = _check_platform_win(self.uri).get("handle")
         if h:
@@ -49,3 +51,12 @@ class WinScreenComponent(ScreenComponent):
         # not stable, use carefully
         if self.window:
             self.window.MoveWindow(x=pos[0], y=pos[1])
+
+    @property
+    def name(self):
+        return self._name
+    
+    @name.setter
+    def name(self, value):
+        self._name = value
+        
