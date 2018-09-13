@@ -8,7 +8,7 @@ from deval.utils.parse import parse_uri
 class IOSAppComponent(AppComponent):
 
     def __init__(self, name, dev, uri):
-        self.name = name
+        self._name = name
         self.device = dev
         try:
             self.driver = self.dev.iosproxy.driver

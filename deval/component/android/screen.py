@@ -13,7 +13,7 @@ from deval.utils.android.javacap import Javacap
 class AndroidMiniCapStreamScreenComponent(ScreenComponent):
 
     def __init__(self, name, dev):
-        self.name = name
+        self._name = name
         self.adb = dev.adb
         self.rotation_watcher = RotationWatcher(self.adb)
         self.minicap = Minicap(self.adb)
@@ -65,7 +65,7 @@ class AndroidMiniCapStreamScreenComponent(ScreenComponent):
 
         """
         if not self._display_info:
-            self._display_info = self.get_display_info()
+            self._display_info = self._get_display_info()
         display_info = copy(self._display_info)
         # update ow orientation, which is more accurate
         if self._current_orientation is not None:
@@ -75,7 +75,7 @@ class AndroidMiniCapStreamScreenComponent(ScreenComponent):
             })
         return display_info
 
-    def get_display_info(self):
+    def _get_display_info(self):
         """
         Return the display info (width, height, orientation and max_x, max_y)
 
@@ -111,7 +111,7 @@ class AndroidMiniCapStreamScreenComponent(ScreenComponent):
 class AndroidJAVACapScreenComponent(ScreenComponent):
 
     def __init__(self, name, dev):
-        self.name = name
+        self._name = name
         self.adb = dev.adb
         self.javacap = Javacap(self.adb)
         self._display_info = {}
@@ -145,7 +145,7 @@ class AndroidJAVACapScreenComponent(ScreenComponent):
     @property
     def display_info(self):
         if not self._display_info:
-            self._display_info = self.get_display_info()
+            self._display_info = self._get_display_info()
         display_info = copy(self._display_info)
         # update ow orientation, which is more accurate
         if self._current_orientation is not None:
@@ -155,7 +155,7 @@ class AndroidJAVACapScreenComponent(ScreenComponent):
             })
         return display_info
 
-    def get_display_info(self):
+    def _get_display_info(self):
         display_info = self.adb.get_display_info()
         return display_info
 
@@ -174,7 +174,7 @@ class AndroidJAVACapScreenComponent(ScreenComponent):
 class AndroidMiniCapScreenComponent(ScreenComponent):
 
     def __init__(self, name, dev):
-        self.name = name
+        self._name = name
         self.adb = dev.adb
         self.rotation_watcher = RotationWatcher(self.adb)
         self.minicap = Minicap(self.adb)
@@ -218,7 +218,7 @@ class AndroidMiniCapScreenComponent(ScreenComponent):
     @property
     def display_info(self):
         if not self._display_info:
-            self._display_info = self.get_display_info()
+            self._display_info = self._get_display_info()
         display_info = copy(self._display_info)
         # update ow orientation, which is more accurate
         if self._current_orientation is not None:
@@ -228,7 +228,7 @@ class AndroidMiniCapScreenComponent(ScreenComponent):
             })
         return display_info
 
-    def get_display_info(self):
+    def _get_display_info(self):
         display_info = self.minicap.get_display_info()
         return display_info
 
@@ -248,7 +248,7 @@ class AndroidMiniCapScreenComponent(ScreenComponent):
 class AndroidADBScreenComponent(ScreenComponent):
 
     def __init__(self, name, dev):
-        self.name = name
+        self._name = name
         self.adb = dev.adb
         self.rotation_watcher = RotationWatcher(self.adb)
         self._display_info = {}
@@ -286,7 +286,7 @@ class AndroidADBScreenComponent(ScreenComponent):
     @property
     def display_info(self):
         if not self._display_info:
-            self._display_info = self.get_display_info()
+            self._display_info = self._get_display_info()
         display_info = copy(self._display_info)
         # update ow orientation, which is more accurate
         if self._current_orientation is not None:
@@ -296,7 +296,7 @@ class AndroidADBScreenComponent(ScreenComponent):
             })
         return display_info
 
-    def get_display_info(self):
+    def _get_display_info(self):
         display_info = self.adb.get_display_info()
         return display_info
 

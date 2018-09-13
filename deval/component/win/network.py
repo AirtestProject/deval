@@ -8,7 +8,7 @@ from deval.utils.win.winfuncs import get_window, _check_platform_win
 class WinNetworkComponent(NetworkComponent):
 
     def __init__(self, name, dev, uri):
-        self.name = name
+        self._name = name
 
     def get_ip_address(self):
         return socket.gethostbyname(socket.gethostname())

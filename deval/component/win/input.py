@@ -13,7 +13,7 @@ from deval.utils.win.winfuncs import _check_platform_win
 class WinInputComponent(InputComponent):
     
     def __init__(self, name, dev, uri):
-        self.name = name
+        self._name = name
         self.uri = uri
         self.device = dev
 

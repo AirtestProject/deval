@@ -8,7 +8,7 @@ from deval.utils.android.androidfuncs import _check_platform_android
 class AndroidAppComponent(AppComponent):
 
     def __init__(self, name, dev):
-        self.name = name
+        self._name = name
         self.adb = dev.adb  # 获取设备的数据
 
     def start(self, package, activity=None):

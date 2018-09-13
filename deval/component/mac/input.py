@@ -9,7 +9,7 @@ from deval.component.std.input import InputComponent
 class MacInputComponent(InputComponent):
     
     def __init__(self, name):
-        self.name = name
+        self._name = name
         self.screen = mss()  # 双屏需要
         self.monitor = self.screen.monitors[0]
         self.singlemonitor = self.screen.monitors[1]

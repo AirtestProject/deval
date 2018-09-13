@@ -10,7 +10,7 @@ from deval.utils.cv import crop_image, imwrite
 class WinScreenComponent(ScreenComponent):
 
     def __init__(self, name, dev, uri):
-        self.name = name
+        self._name = name
         self.uri = uri
         self.device = dev
         try:

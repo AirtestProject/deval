@@ -9,7 +9,7 @@ from deval.utils.parse import parse_uri
 class IOSInputComponent(InputComponent):
 
     def __init__(self, name, dev, uri):
-        self.name = name
+        self._name = name
         self.device = dev
         try:
             self.proxy = self.dev.iosproxy

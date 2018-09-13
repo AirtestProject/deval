@@ -7,7 +7,7 @@ from deval.component.std.app import AppComponent
 class MacAppComponent(AppComponent):
     
     def __init__(self, name):
-        self.name = name
+        self._name = name
 
     def start(self, path, **kwargs):
         """

@@ -10,7 +10,7 @@ from deval.utils.cv import pil_2_cv2
 class MacScreenComponent(ScreenComponent):
 
     def __init__(self, name):
-        self.name = name
+        self._name = name
         self.screen = mss()
         self.monitor = self.screen.monitors[0]
 

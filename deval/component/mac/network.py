@@ -7,7 +7,7 @@ from deval.component.std.network import NetworkComponent
 class MacNetworkComponent(NetworkComponent):
 
     def __init__(self, name):
-        self.name = name
+        self._name = name
 
     def get_ip_address(self):
         return socket.gethostbyname(socket.gethostname())

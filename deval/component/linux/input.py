@@ -10,7 +10,7 @@ from pynput.mouse import Controller, Button
 class LinuxInputComponent(InputComponent):
 
     def __init__(self, name):
-        self.name = name
+        self._name = name
         self.screen = mss()
         self.monitor = self.screen.monitors[0]
         self.singlemonitor = self.screen.monitors[1]

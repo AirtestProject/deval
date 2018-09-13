@@ -8,7 +8,7 @@ from deval.utils.parse import parse_uri
 class AndroidNetworkComponent(NetworkComponent):
 
     def __init__(self, name, dev):
-        self.name = name
+        self._name = name
         self.adb = dev.adb
 
     def get_ip_address(self):

@@ -10,7 +10,7 @@ from deval.utils.android.ime import YosemiteIme
 class AndroidYOSEMITEIMEKeyEventComponent(KeyEventComponent):
 
     def __init__(self, name, dev):
-        self.name = name
+        self._name = name
         self.adb = dev.adb
         self.recorder = Recorder(self.adb)
         self.yosemite_ime = YosemiteIme(self.adb)
@@ -46,7 +46,7 @@ class AndroidYOSEMITEIMEKeyEventComponent(KeyEventComponent):
 class AndroidADBIMEKeyEventComponent(KeyEventComponent):
 
     def __init__(self, name, dev):
-        self.name = name
+        self._name = name
         self.adb = dev.adb
         self.recorder = Recorder(self.adb)
 

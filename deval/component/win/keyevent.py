@@ -9,7 +9,7 @@ from pynput.keyboard import Controller
 class WinKeyEventComponent(KeyEventComponent):
     
     def __init__(self, name, dev, uri):
-        self.name = name
+        self._name = name
         self.keyboard = Controller()
 
     def keyevent(self, keyname):

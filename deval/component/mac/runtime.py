@@ -8,7 +8,7 @@ from deval.component.std.runtime import RuntimeComponent
 class MacRuntimeComponent(RuntimeComponent):
     
     def __init__(self, name):
-        self.name = name
+        self._name = name
 
     def shell(self, cmd):
         return subprocess.check_output(cmd, shell=True)

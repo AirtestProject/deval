@@ -9,7 +9,7 @@ from deval.utils.parse import parse_uri
 class AndroidRuntimeComponent(RuntimeComponent):
 
     def __init__(self, name, dev):
-        self.name = name
+        self._name = name
         self.adb = dev.adb
 
     def shell(self, cmd):

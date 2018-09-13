@@ -11,7 +11,7 @@ from deval.utils.android.minitouch import Minitouch
 class AndroidMiniTouchInputComponent(InputComponent):
 
     def __init__(self, name, dev):
-        self.name = name
+        self._name = name
         self.device = dev
         self.adb = self.device.adb
         self.minitouch = Minitouch(self.device)
@@ -70,7 +70,7 @@ class AndroidMiniTouchInputComponent(InputComponent):
 class AndroidADBTouchInputComponent(InputComponent):
 
     def __init__(self, name, dev):
-        self.name = name
+        self._name = name
         self.adb = dev.adb
 
     def click(self, pos, duration=0.05, button='left'):
