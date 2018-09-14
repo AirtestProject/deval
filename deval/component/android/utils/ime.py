@@ -1,8 +1,8 @@
 # coding=utf-8
 import re
-from deval.utils.android.yosemite import Yosemite
-from deval.utils.android.error import AdbError
-from deval.utils.android.constant import YOSEMITE_IME_SERVICE
+from deval.component.android.utils.yosemite import Yosemite
+from deval.component.android.utils.error import AdbError
+from deval.component.android.utils.constant import YOSEMITE_IME_SERVICE
 from six import text_type
 
 

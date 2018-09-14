@@ -2,8 +2,6 @@
 
 import re
 from deval.component.std.runtime import RuntimeComponent
-from deval.utils.android.androidfuncs import _check_platform_android
-from deval.utils.parse import parse_uri
 
 
 class AndroidRuntimeComponent(RuntimeComponent):

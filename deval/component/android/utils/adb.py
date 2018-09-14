@@ -12,8 +12,8 @@ import threading
 from six import PY3, text_type, binary_type
 from six.moves import reduce
 
-from deval.utils.android.constant import (DEFAULT_ADB_PATH, IP_PATTERN, SDK_VERISON_NEW)
-from deval.utils.android.error import AdbError, AdbShellError
+from deval.component.android.utils.constant import (DEFAULT_ADB_PATH, IP_PATTERN, SDK_VERISON_NEW)
+from deval.component.android.utils.error import AdbError, AdbShellError
 from deval.device.std.error import DevalError, DeviceConnectionError
 from deval.utils.compat import decode_path
 from deval.utils.logger import get_logger

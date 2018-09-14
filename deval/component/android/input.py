@@ -2,10 +2,8 @@
 
 import time
 from deval.component.std.input import InputComponent
-from deval.utils.android.androidfuncs import _check_platform_android
-from deval.utils.parse import parse_uri
-from deval.utils.android.rotation import XYTransformer
-from deval.utils.android.minitouch import Minitouch
+from deval.component.android.utils.rotation import XYTransformer
+from deval.component.android.utils.minitouch import Minitouch
 
 
 class AndroidMiniTouchInputComponent(InputComponent):

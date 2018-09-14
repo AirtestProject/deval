@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from deval.component.std.keyevent import KeyEventComponent
-from deval.utils.android.androidfuncs import _check_platform_android
-from deval.utils.parse import parse_uri
-from deval.utils.android.recorder import Recorder
-from deval.utils.android.ime import YosemiteIme
+from deval.component.android.utils.recorder import Recorder
+from deval.component.android.utils.ime import YosemiteIme
 
 
 class AndroidYOSEMITEIMEKeyEventComponent(KeyEventComponent):

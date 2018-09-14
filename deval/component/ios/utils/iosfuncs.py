@@ -9,10 +9,10 @@ import json
 import base64
 import wda
 from deval.utils.cv import *
-from deval.utils.ios.constant import CAP_METHOD, TOUCH_METHOD, IME_METHOD
-from deval.utils.ios.rotation import XYTransformer, RotationWatcher
-from deval.utils.ios.fake_minitouch import fakeMiniTouch
-from deval.utils.ios.instruct_helper import InstructHelper
+from deval.component.ios.utils.constant import CAP_METHOD, TOUCH_METHOD, IME_METHOD
+from deval.component.ios.utils.rotation import XYTransformer, RotationWatcher
+from deval.component.ios.utils.fake_minitouch import fakeMiniTouch
+from deval.component.ios.utils.instruct_helper import InstructHelper
 from deval.utils.logger import get_logger
 from deval.utils.parse import parse_uri
 from wda import LANDSCAPE, PORTRAIT, LANDSCAPE_RIGHT, PORTRAIT_UPSIDEDOWN
@@ -42,7 +42,7 @@ def retry_session(func):
     return wrapper
 
 
-def _check_platform_ios(uri, platform="ios"):
+def check_platform_ios(uri, platform="ios"):
     """
     Check the uri and return a dictionary containing the various parameters contained in the uri.
 

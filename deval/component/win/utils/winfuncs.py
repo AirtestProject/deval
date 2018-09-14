@@ -17,7 +17,7 @@ SM_CXVIRTUALSCREEN = 78
 SM_CYVIRTUALSCREEN = 79
 
 
-def _check_platform_win(uri, platform="windows"):
+def check_platform_win(uri, platform="windows"):
     """
     Check the uri and return a dictionary containing the various parameters contained in the uri.
 

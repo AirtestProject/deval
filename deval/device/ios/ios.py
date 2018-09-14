@@ -7,7 +7,7 @@ from deval.component.ios.input import IOSInputComponent
 from deval.component.ios.keyevent import IOSKeyEventComponent
 from deval.component.ios.screen import IOSScreenComponent
 from deval.component.ios.statue import IOSStatueComponent
-from deval.utils.ios.iosfuncs import IOSProxy, _check_platform_ios
+from deval.component.ios.utils.iosfuncs import IOSProxy, check_platform_ios
 
 
 class IOSDevice(DeviceBase):
@@ -15,7 +15,7 @@ class IOSDevice(DeviceBase):
     def __init__(self, uri):
         super(IOSDevice, self).__init__(uri)
 
-        kw = _check_platform_ios(uri)
+        kw = check_platform_ios(uri)
         self.iosproxy = IOSProxy(**kw)
 
         self.add_component(IOSAppComponent("app", self, uri))
@@ -31,5 +31,5 @@ class IOSDevice(DeviceBase):
             return self.iosproxy.addr
         except AttributeError:
             self.iosproxy = IOSProxy(
-                **_check_platform_ios(self.uri))
+                **check_platform_ios(self.uri))
             return self.iosproxy.addr

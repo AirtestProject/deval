@@ -5,7 +5,7 @@ import traceback
 from deval.device.std.error import DevalError
 from deval.utils.snippet import reg_cleanup, is_exiting, on_method_ready
 from deval.utils.logger import get_logger
-from deval.utils.android.constant import ROTATIONWATCHER_APK, ROTATIONWATCHER_PACKAGE
+from deval.component.android.utils.constant import ROTATIONWATCHER_APK, ROTATIONWATCHER_PACKAGE
 LOGGING = get_logger(__name__)
 
 

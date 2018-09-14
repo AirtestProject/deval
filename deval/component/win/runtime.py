@@ -2,8 +2,8 @@
 
 import subprocess
 from deval.component.std.runtime import RuntimeComponent
-from deval.utils.win.winfuncs import get_window, Application
-from deval.utils.win.winfuncs import _check_platform_win
+from deval.component.win.utils.winfuncs import get_window, Application
+from deval.component.win.utils.winfuncs import check_platform_win
 
 
 class WinRuntimeComponent(RuntimeComponent):

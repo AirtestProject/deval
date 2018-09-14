@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from deval.utils.android.constant import YOSEMITE_APK, YOSEMITE_PACKAGE
+from deval.component.android.utils.constant import YOSEMITE_APK, YOSEMITE_PACKAGE
 from deval.utils.snippet import on_method_ready
 from deval.utils.apkparser import APK
 from deval.utils.logger import get_logger

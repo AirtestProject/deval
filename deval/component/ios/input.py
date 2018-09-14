@@ -2,7 +2,7 @@
 
 
 from deval.component.std.input import InputComponent
-from deval.utils.ios.iosfuncs import IOSProxy, _check_platform_ios, retry_session
+from deval.component.ios.utils.iosfuncs import IOSProxy, check_platform_ios, retry_session
 from deval.utils.parse import parse_uri
 
 
@@ -14,7 +14,7 @@ class IOSInputComponent(InputComponent):
         try:
             self.proxy = self.dev.iosproxy
         except AttributeError:
-            self.device.iosproxy = IOSProxy(**_check_platform_ios(uri))
+            self.device.iosproxy = IOSProxy(**check_platform_ios(uri))
             self.proxy = self.device.iosproxy
 
     @retry_session

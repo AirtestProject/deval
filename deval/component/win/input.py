@@ -5,9 +5,9 @@ from mss import mss
 from pywinauto import mouse
 from pynput.mouse import Controller, Button
 from deval.component.std.input import InputComponent
-from deval.utils.win.winfuncs import get_app, get_rect, get_window, set_foreground_window
-from deval.utils.win.winfuncs import Application, get_action_pos
-from deval.utils.win.winfuncs import _check_platform_win
+from deval.component.win.utils.winfuncs import get_app, get_rect, get_window, set_foreground_window
+from deval.component.win.utils.winfuncs import Application, get_action_pos
+from deval.component.win.utils.winfuncs import check_platform_win
 
 
 class WinInputComponent(InputComponent):
@@ -21,8 +21,8 @@ class WinInputComponent(InputComponent):
             self.app = self.device.app
             self.window = self.device.window
         except AttributeError:
-            self.device.app = get_app(_check_platform_win(self.uri))
-            self.device.window = get_window(_check_platform_win(self.uri))
+            self.device.app = get_app(check_platform_win(self.uri))
+            self.device.window = get_window(check_platform_win(self.uri))
             self.app = self.device.app
             self.window = self.device.window
         self.screen = mss()

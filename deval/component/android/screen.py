@@ -3,11 +3,9 @@
 from copy import copy
 from deval.utils.cv import string_2_img, rotate, imwrite
 from deval.component.std.screen import ScreenComponent
-from deval.utils.android.androidfuncs import _check_platform_android
-from deval.utils.parse import parse_uri
-from deval.utils.android.rotation import RotationWatcher
-from deval.utils.android.minicap import Minicap
-from deval.utils.android.javacap import Javacap
+from deval.component.android.utils.rotation import RotationWatcher
+from deval.component.android.utils.minicap import Minicap
+from deval.component.android.utils.javacap import Javacap
 
 
 class AndroidMiniCapStreamScreenComponent(ScreenComponent):

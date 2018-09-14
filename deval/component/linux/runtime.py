@@ -3,7 +3,6 @@
 
 import subprocess
 from deval.component.std.runtime import RuntimeComponent
-from deval.utils.linux.linuxfuncs import _check_platform_linux
 
 
 class LinuxRuntimeComponent(RuntimeComponent):

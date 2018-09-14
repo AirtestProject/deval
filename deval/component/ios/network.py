@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from deval.component.std.network import NetworkComponent
-from deval.utils.ios.iosfuncs import IOSProxy, _check_platform_ios
+from deval.component.ios.utils.iosfuncs import IOSProxy, check_platform_ios
 from deval.utils.parse import parse_uri
 
 
@@ -13,7 +13,7 @@ class IOSNetworkComponent(NetworkComponent):
         try:
             self.proxy = self.device.iosproxy
         except AttributeError:
-            self.device.iosproxy = IOSProxy(**_check_platform_ios(uri))
+            self.device.iosproxy = IOSProxy(**check_platform_ios(uri))
             self.proxy = self.device.iosproxy
 
     def get_ip_address(self):

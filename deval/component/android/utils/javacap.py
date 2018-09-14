@@ -3,7 +3,7 @@ from deval.utils.logger import get_logger
 from deval.utils.safesocket import SafeSocket
 from deval.utils.nbsp import NonBlockingStreamReader
 from deval.utils.snippet import on_method_ready, reg_cleanup
-from deval.utils.android.yosemite import Yosemite
+from deval.component.android.utils.yosemite import Yosemite
 import struct
 LOGGING = get_logger(__name__)
 

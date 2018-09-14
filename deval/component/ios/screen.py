@@ -2,7 +2,7 @@
 
 from deval.utils.cv import string_2_img, rotate, imwrite
 from deval.component.std.screen import ScreenComponent
-from deval.utils.ios.iosfuncs import IOSProxy, _check_platform_ios, CAP_METHOD, LANDSCAPE, LANDSCAPE_RIGHT
+from deval.component.ios.utils.iosfuncs import IOSProxy, check_platform_ios, CAP_METHOD, LANDSCAPE, LANDSCAPE_RIGHT
 from deval.utils.parse import parse_uri
 
 
@@ -14,7 +14,7 @@ class IOSScreenComponent(ScreenComponent):
         try:
             self.proxy = self.device.iosproxy
         except AttributeError:
-            self.device.iosproxy = IOSProxy(**_check_platform_ios(uri))
+            self.device.iosproxy = IOSProxy(**check_platform_ios(uri))
             self.proxy = self.device.iosproxy
 
     def snapshot(self, filename=None, ensure_orientation=True):

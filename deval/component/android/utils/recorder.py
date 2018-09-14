@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import re
 import six
-from deval.utils.android.yosemite import Yosemite
-from deval.utils.android.constant import YOSEMITE_PACKAGE
+from deval.component.android.utils.yosemite import Yosemite
+from deval.component.android.utils.constant import YOSEMITE_PACKAGE
 from deval.device.std.error import DevalError
 from deval.utils.logger import get_logger
 from deval.utils.nbsp import NonBlockingStreamReader

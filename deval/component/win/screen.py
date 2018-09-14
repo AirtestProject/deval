@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from deval.component.std.screen import ScreenComponent
-from deval.utils.win.winfuncs import get_app, get_rect, get_window
-from deval.utils.win.winfuncs import Application, screenshot
-from deval.utils.win.winfuncs import _check_platform_win
+from deval.component.win.utils.winfuncs import get_app, get_rect, get_window
+from deval.component.win.utils.winfuncs import Application, screenshot
+from deval.component.win.utils.winfuncs import check_platform_win
 from deval.utils.cv import crop_image, imwrite
 
 
@@ -17,12 +17,12 @@ class WinScreenComponent(ScreenComponent):
             self.app = self.dev.app
             self.window = self.dev.window
         except AttributeError:
-            self.device.app = get_app(_check_platform_win(self.uri))
-            self.device.window = get_window(_check_platform_win(self.uri))
+            self.device.app = get_app(check_platform_win(self.uri))
+            self.device.window = get_window(check_platform_win(self.uri))
             self.app = self.device.app
             self.window = self.device.window
         self.handle = None
-        h = _check_platform_win(self.uri).get("handle")
+        h = check_platform_win(self.uri).get("handle")
         if h:
             self.handle = int(h)
 

@@ -5,7 +5,7 @@ import json
 import struct
 import threading
 import six
-from deval.utils.android.constant import STFLIB, ORI_METHOD
+from deval.component.android.utils.constant import STFLIB, ORI_METHOD
 from deval.utils.logger import get_logger
 from deval.utils.nbsp import NonBlockingStreamReader
 from deval.utils.safesocket import SafeSocket

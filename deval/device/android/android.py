@@ -1,12 +1,36 @@
 # -*- coding: utf-8 -*-
 
-from deval.utils.android.adb import ADB
+from deval.component.android.utils.adb import ADB
 from deval.device.std.device import DeviceBase
 from deval.component.android.app import AndroidAppComponent
 from deval.component.android.network import AndroidNetworkComponent
 from deval.component.android.runtime import AndroidRuntimeComponent
-from deval.utils.android.androidfuncs import _check_platform_android
-from deval.utils.android.constant import CAP_METHOD, TOUCH_METHOD, IME_METHOD, ORI_METHOD
+from deval.component.android.utils.constant import CAP_METHOD, TOUCH_METHOD, IME_METHOD, ORI_METHOD
+from deval.utils.parse import parse_uri
+
+
+def check_platform_android(uri, platform="android"):
+    params = parse_uri(uri)
+    if params["platform"] != platform:
+        raise RuntimeError("Platform error!")
+    if "uuid" in params:
+        params["serialno"] = params["uuid"]
+        params.pop("uuid")
+    params.pop("platform")
+    return params
+
+
+def get_android_default_device():
+    """
+    Get local default device when no serailno
+
+    Returns:
+        local device serialno
+
+    """
+    if not ADB().devices(state="device"):
+        raise IndexError("ADB devices not found")
+    return ADB().devices(state="device")[0][0]
 
 
 class AndroidDevice(DeviceBase):
@@ -14,11 +38,11 @@ class AndroidDevice(DeviceBase):
     def __init__(self, uri):
         super(AndroidDevice, self).__init__(uri)
    
-        self.kw = _check_platform_android(uri)
+        self.kw = check_platform_android(uri)
         self.ime_method = self.kw.get("ime_method") or IME_METHOD.YOSEMITEIME
         self.touch_method = self.kw.get("touch_method") or TOUCH_METHOD.MINITOUCH
         self.cap_method = self.kw.get("cap_method") or CAP_METHOD.MINICAP_STREAM
-        self.serialno = self.kw.get("serialno") or self.get_default_device()
+        self.serialno = self.kw.get("serialno") or get_android_default_device()
         self.adb = ADB(self.uuid, server_addr=self.kw.get("host"))
         
         self.add_component(AndroidAppComponent("app", self))
@@ -55,15 +79,3 @@ class AndroidDevice(DeviceBase):
     @property
     def uuid(self):
         return self.serialno
-
-    def get_default_device(self):
-        """
-        Get local default device when no serailno
-
-        Returns:
-            local device serialno
-
-        """
-        if not ADB().devices(state="device"):
-            raise IndexError("ADB devices not found")
-        return ADB().devices(state="device")[0][0]
