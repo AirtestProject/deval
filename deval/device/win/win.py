@@ -7,15 +7,15 @@ from deval.component.win.keyevent import WinKeyEventComponent
 from deval.component.win.network import WinNetworkComponent
 from deval.component.win.runtime import WinRuntimeComponent
 from deval.component.win.screen import WinScreenComponent
-from deval.component.win.utils.winfuncs import get_app, get_window, check_platform_win
+from deval.component.win.utils.winfuncs import get_app, get_window
 
 
 class WinDevice(DeviceBase):
 
     def __init__(self, uri):
         super(WinDevice, self).__init__(uri)
-        self.app = get_app(check_platform_win(uri))
-        self.window = get_window(check_platform_win(uri))
+        self.application = get_app(uri)
+        self.window = get_window(uri)
         self.handle = self.window.handle
         self.add_component(WinNetworkComponent("network", self, uri))
         self.add_component(WinInputComponent("input", self, uri))

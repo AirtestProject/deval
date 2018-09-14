@@ -49,7 +49,7 @@ class Minitouch(object):
         """
         self.install()
         # self.size_info = self.ori_function()
-        self.size_info = self.device.screen_component.display_info
+        self.size_info = self.device.screen.display_info
         self.setup_server()
         if self.backend:
             self.setup_client_backend()

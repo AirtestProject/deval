@@ -7,7 +7,6 @@ from pynput.mouse import Controller, Button
 from deval.component.std.input import InputComponent
 from deval.component.win.utils.winfuncs import get_app, get_rect, get_window, set_foreground_window
 from deval.component.win.utils.winfuncs import Application, get_action_pos
-from deval.component.win.utils.winfuncs import check_platform_win
 
 
 class WinInputComponent(InputComponent):
@@ -18,12 +17,12 @@ class WinInputComponent(InputComponent):
         self.device = dev
 
         try:
-            self.app = self.device.app
+            self.application = self.device.application
             self.window = self.device.window
         except AttributeError:
-            self.device.app = get_app(check_platform_win(self.uri))
-            self.device.window = get_window(check_platform_win(self.uri))
-            self.app = self.device.app
+            self.device.app = get_app(self.uri)
+            self.device.window = get_window(self.uri)
+            self.application = self.device.application
             self.window = self.device.window
         self.screen = mss()
         self.monitor = self.screen.monitors[0]  # 双屏的时候，self.monitor为整个双屏

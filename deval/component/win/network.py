@@ -2,7 +2,6 @@
 
 import socket
 from deval.component.std.network import NetworkComponent
-from deval.component.win.utils.winfuncs import get_window, check_platform_win
 
 
 class WinNetworkComponent(NetworkComponent):

@@ -9,17 +9,6 @@ from deval.component.android.utils.constant import CAP_METHOD, TOUCH_METHOD, IME
 from deval.utils.parse import parse_uri
 
 
-def check_platform_android(uri, platform="android"):
-    params = parse_uri(uri)
-    if params["platform"] != platform:
-        raise RuntimeError("Platform error!")
-    if "uuid" in params:
-        params["serialno"] = params["uuid"]
-        params.pop("uuid")
-    params.pop("platform")
-    return params
-
-
 def get_android_default_device():
     """
     Get local default device when no serailno
@@ -37,8 +26,10 @@ class AndroidDevice(DeviceBase):
 
     def __init__(self, uri):
         super(AndroidDevice, self).__init__(uri)
-   
-        self.kw = check_platform_android(uri)
+        params = parse_uri(uri)
+        if "uuid" in params:
+            params["serialno"] = params["uuid"]
+        self.kw = params
         self.ime_method = self.kw.get("ime_method") or IME_METHOD.YOSEMITEIME
         self.touch_method = self.kw.get("touch_method") or TOUCH_METHOD.MINITOUCH
         self.cap_method = self.kw.get("cap_method") or CAP_METHOD.MINICAP_STREAM

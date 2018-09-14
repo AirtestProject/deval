@@ -50,9 +50,9 @@ class AndroidMiniTouchInputComponent(InputComponent):
         x, y = tuple_xy
         x, y = XYTransformer.up_2_ori(
             (x, y),
-            (self.device.screen_component.display_info["width"],
-             self.device.screen_component.display_info["height"]),
-            self.device.screen_component.display_info["orientation"]
+            (self.device.screen.display_info["width"],
+             self.device.screen.display_info["height"]),
+            self.device.screen.display_info["orientation"]
         )
         return x, y
 

@@ -17,33 +17,6 @@ SM_CXVIRTUALSCREEN = 78
 SM_CYVIRTUALSCREEN = 79
 
 
-def check_platform_win(uri, platform="windows"):
-    """
-    Check the uri and return a dictionary containing the various parameters contained in the uri.
-
-    Parameters:
-        uri - an URI where to connect to device, e.g. `mac:///`
-
-    Returns:
-        A dictionary containing the various parameters contained in the uri.
-
-    Raises:
-        RuntimeError - raise when the platform does not match the uri.
-    """
-    params = parse_uri(uri)
-    if params["platform"] != platform:
-        raise RuntimeError("Platform error!")
-    params.pop("platform")
-    if "host" in params:
-        params.pop("host")
-    if "uuid" in params:
-        handle = params["uuid"]
-        if handle != '':
-            params["handle"] = int(handle)
-        params.pop("uuid")
-    return params
-
-
 def set_foreground_window(window):
     if window:
         SetForegroundWindow(window)
@@ -56,7 +29,7 @@ def get_rect(window):
         return RECT(right=GetSystemMetrics(0), bottom=GetSystemMetrics(1))
 
 
-def get_app(kwargs):
+def get_app(uri):
     """
     Get the application based on the given parameters, which is an application instance of pywinauto
 
@@ -66,14 +39,22 @@ def get_app(kwargs):
     Returns:
         An application instance of pywinauto
     """
-    if len(kwargs) == 0:
-        return None
+    
+    kwargs = parse_uri(uri)
     if "handle" in kwargs:
         kwargs["handle"] = int(kwargs["handle"])
+    elif "uuid" in kwargs:
+        handle = kwargs["uuid"]
+        kwargs.pop("uuid")
+        if handle != '':
+            kwargs["handle"] = int(handle)
+    kwargs.pop("platform")
+    if len(kwargs) == 0:
+            return None
     return Application().connect(**kwargs)
 
 
-def get_window(kwargs):
+def get_window(uri):
     """
     Get the window based on the given parameters, which is an window instance of pywinauto
 
@@ -83,12 +64,21 @@ def get_window(kwargs):
     Returns:
         A window instance of pywinauto
     """
+    kwargs = parse_uri(uri)
+    if "handle" in kwargs:
+        kwargs["handle"] = int(kwargs["handle"])
+    elif "uuid" in kwargs:
+        handle = kwargs["uuid"]
+        kwargs.pop("uuid")
+        if handle != '':
+            kwargs["handle"] = int(handle)
+    kwargs.pop("platform")
     handle = kwargs.get("handle")
     if handle:
         handle = int(handle)
-        return get_app(kwargs).window(handle=handle).wrapper_object()
+        return get_app(uri).window(handle=handle).wrapper_object()
     else:
-        app = get_app(kwargs)
+        app = get_app(uri)
         if app:
             return app.top_window().wrapper_object()
 

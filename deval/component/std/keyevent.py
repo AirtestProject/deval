@@ -25,3 +25,6 @@ class KeyEventComponent(Component):
             enter - Whether to enter the Enter key.
         """
         raise NotImplementedError
+
+    def __call__(self, keyname):
+        return self.keyevent(keyname)

@@ -41,8 +41,6 @@ class DeviceBase(object):
         """
         if name in self.component_list:
             return self.component_list.get(name)
-        else:
-            raise RuntimeError("No such component!")
 
     def remove_component(self, comName):
         """
@@ -60,28 +58,46 @@ class DeviceBase(object):
         return False
 
     @property
-    def input_component(self):
-        return self.get_component("input")
+    def input(self):
+        if "input" in self.component_list:
+            return self.component_list.get("input")
+        else:
+            raise RuntimeError("No such component!")
 
     @property
-    def keyevent_component(self):
-        return self.get_component("keyevent")
+    def keyevent(self):
+        if "keyevent" in self.component_list:
+            return self.component_list.get("keyevent")
+        else:
+            raise RuntimeError("No such component!")
 
     @property
-    def runtime_component(self):
-        return self.get_component("runtime")
+    def runtime(self):
+        if "runtime" in self.component_list:
+            return self.component_list.get("runtime")
+        else:
+            raise RuntimeError("No such component!")
 
     @property
-    def app_component(self):
-        return self.get_component("app")
+    def app(self):
+        if "app" in self.component_list:
+            return self.component_list.get("app")
+        else:
+            raise RuntimeError("No such component!")
 
     @property
-    def screen_component(self):
-        return self.get_component("screen")
+    def screen(self):
+        if "screen" in self.component_list:
+            return self.component_list.get("screen")
+        else:
+            raise RuntimeError("No such component!")
 
     @property
-    def network_component(self):
-        return self.get_component("network")
+    def network(self):
+        if "network" in self.component_list:
+            return self.component_list.get("network")
+        else:
+            raise RuntimeError("No such component!")
 
     # some useful apis
 
@@ -95,7 +111,7 @@ class DeviceBase(object):
             duration - the duration of the operation. Supported devices: All
             button - the button of the operation. Supported devices: Windows, Linux, Mac
         """
-        return self.input_component.click(pos, duration, button)
+        return self.input.click(pos, duration, button)
 
     def rclick(self, pos, duration=0.05, button='right'):
         """
@@ -106,7 +122,7 @@ class DeviceBase(object):
             duration - the duration of the operation. Supported devices: Windows, Linux, Mac
             button - the button of the operation. Supported devices: Windows, Linux, Mac
         """
-        return self.input_component.click(pos, duration, button)
+        return self.input.click(pos, duration, button)
 
     def long_click(self, pos, duration=2, button='left'):
         """
@@ -117,7 +133,7 @@ class DeviceBase(object):
             duration - the duration of the operation. Supported devices: All
             button - the button of the operation. Supported devices: Windows, Linux, Mac
         """
-        return self.input_component.click(pos, duration, button)
+        return self.input.click(pos, duration, button)
 
     def tap(self, pos, duration=0.05):
         """
@@ -143,7 +159,7 @@ class DeviceBase(object):
             fingers - the number of fingers to perform the operation. Supported devices: Android
             button - the button of the operation. Supported devices: Windows, Linux, Mac
         """
-        return self.input_component.swipe(p1, p2, duration, steps, fingers, button)
+        return self.input.swipe(p1, p2, duration, steps, fingers, button)
 
     def double_tap(self, pos, button='left'):
         """
@@ -153,7 +169,7 @@ class DeviceBase(object):
             pos - a list refer to the double click position. Supported devices: All
             button - the button of the operation. Supported devices: Windows, Linux, Mac
         """
-        return self.input_component.double_tap(pos, button)
+        return self.input.double_tap(pos, button)
 
     def scroll(self, pos, direction="vertical", duration=0.5, steps=5):
         """
@@ -165,17 +181,7 @@ class DeviceBase(object):
             duration - the duration of the operation. Supported devices: Windows, Linux, Mac
             steps - the number of times of the operation. Supported devices: Windows, Linux, Mac
         """
-        return self.input_component.scroll(pos, direction, duration, steps)
-
-    def keyevent(self, keyname):
-        """
-        If the target device is a PC, perform keyboard operations.
-        Otherwise, perform the action you specified, such as 'Home'.
-
-        Parameters:
-            keyname - a string refer to the keys. Supported devices: All
-        """
-        return self.keyevent_component.keyevent(keyname)
+        return self.input.scroll(pos, direction, duration, steps)
 
     def text(self, text, enter=True):
         """
@@ -186,7 +192,7 @@ class DeviceBase(object):
             text - a string refer to the text. Supported devices: All
             enter - Whether to enter the Enter key. Supported devices: Android, IOS
         """
-        return self.keyevent_component.text(text, enter)
+        return self.keyevent.text(text, enter)
 
     def shell(self, cmd):
         """
@@ -195,10 +201,10 @@ class DeviceBase(object):
         Parameters:
             cmd - the command. Supported devices: Android, Windows, Linux, Mac
         """
-        return self.runtime_component.shell(cmd)
+        return self.runtime.shell(cmd)
 
     def start_app(self, package, activity=None):
-        return self.app_component.start(package, activity=None)
+        return self.app.start(package, activity=None)
 
     def stop_app(self, package=None):
         """
@@ -207,7 +213,7 @@ class DeviceBase(object):
         Parameters:
             package - the path or the package name. Supported devices: Android, Windows, IOS
         """
-        return self.app_component.stop(package)
+        return self.app.stop(package)
 
     def snapshot(self, filename="tmp.jpg"):
         """
@@ -216,10 +222,10 @@ class DeviceBase(object):
         Parameters:
             filename - the path to save the image. Supported devices: All
         """
-        return self.screen_component.snapshot(filename)
+        return self.screen.snapshot(filename)
 
     def get_ip_address(self):
         """
         Get the current device IP address
         """
-        return self.network_component.get_ip_address()
+        return self.network.get_ip_address()
